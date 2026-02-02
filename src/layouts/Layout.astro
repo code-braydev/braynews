@@ -10,13 +10,16 @@ interface Props {
   author?: string;
 }
 
-const { 
-  title, 
+const {
+  title,
   description = "BrayNews: Tu portal de noticias inteligente con la actualidad de Montería, Córdoba y el mundo.",
-  author = "BrayDev" 
+  author = "BrayDev",
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://noticias.braydev.xyz");
+const canonicalURL = new URL(
+  Astro.url.pathname,
+  Astro.site || "https://noticias.braydev.xyz",
+);
 ---
 
 <!doctype html>
@@ -26,7 +29,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://noticias
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/png" href="/favicon.png" />
     <title>{title}</title>
-    
+
     <meta name="description" content={description} />
     <meta name="author" content={author} />
     <meta name="copyright" content={`© 2026 ${author}`} />
@@ -47,34 +50,33 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://noticias
 
     <script is:inline>
       const theme = (() => {
-        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
           return localStorage.getItem("theme");
         }
-        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        return window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light";
       })();
-    
+
       if (theme === "dark") {
         document.documentElement.classList.add("dark");
       } else {
         document.documentElement.classList.remove("dark");
       }
     </script>
-
-    {import.meta.env.PROD && (
-      <>
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-        <script is:inline>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-XXXXXXXXXX');
-        </script>
-      </>
-    )}
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8640842574866935"
+      crossorigin="anonymous"></script>
   </head>
-  <body class="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased">
+  <body
+    class="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased"
+  >
     <Header />
-    
+
     <main class="grow relative">
       <slot />
     </main>
@@ -83,25 +85,30 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || "https://noticias
 
     <script>
       const initStickyAd = () => {
-        const ad = document.getElementById("sticky-ad-container") as HTMLElement;
+        const ad = document.getElementById(
+          "sticky-ad-container",
+        ) as HTMLElement;
         const footer = document.querySelector("footer") as HTMLElement;
 
         if (ad && footer) {
           ad.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-          
-          const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-              if (entry.isIntersecting) {
-                ad.style.opacity = "0";
-                ad.style.transform = "translateY(20px) scale(0.95)";
-                ad.style.pointerEvents = "none";
-              } else {
-                ad.style.opacity = "1";
-                ad.style.transform = "translateY(0) scale(1)";
-                ad.style.pointerEvents = "auto";
-              }
-            });
-          }, { threshold: 0.1 });
+
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  ad.style.opacity = "0";
+                  ad.style.transform = "translateY(20px) scale(0.95)";
+                  ad.style.pointerEvents = "none";
+                } else {
+                  ad.style.opacity = "1";
+                  ad.style.transform = "translateY(0) scale(1)";
+                  ad.style.pointerEvents = "auto";
+                }
+              });
+            },
+            { threshold: 0.1 },
+          );
 
           observer.observe(footer);
         }
