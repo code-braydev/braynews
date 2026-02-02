@@ -1,0 +1,130 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/ui/Button.astro";
+import Badge from "../components/ui/Badge.astro";
+
+const title = "Privacidad y Transparencia | BrayNews";
+---
+
+<Layout
+  title={title}
+  description="Conoce cómo protegemos tu información y mejoramos tu experiencia en BrayNews."
+>
+  <main class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <article class="animate-fade-in">
+      <header
+        class="border-b border-slate-100 dark:border-slate-800 pb-10 mb-12"
+      >
+        <div class="mb-4">
+          <Badge variant="tecnologia">Seguridad</Badge>
+        </div>
+        <h1
+          class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none"
+        >
+          Privacidad y <span class="text-blue-600">Transparencia</span>
+        </h1>
+        <p
+          class="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium leading-relaxed"
+        >
+          En BrayNews, tu tranquilidad es tan importante como la información que
+          compartimos.
+        </p>
+      </header>
+
+      <div
+        class="space-y-12 text-slate-600 dark:text-slate-400 leading-relaxed text-base md:text-lg"
+      >
+        <section class="group">
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600"
+            >
+              <span class="text-sm">🛡️</span>
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Nuestro Compromiso
+            </h2>
+          </div>
+          <p>
+            Nos tomamos en serio la confianza de nuestros lectores.
+            <strong>No solicitamos registros</strong> ni datos personales identificables.
+            Tu navegación en este portal es libre y anónima.
+          </p>
+        </section>
+
+        <section>
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600"
+            >
+              <span class="text-sm">✨</span>
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Experiencia Personalizada
+            </h2>
+          </div>
+          <p>
+            Usamos tecnologías mínimas (cookies locales) para recordar tus
+            preferencias, como el <strong>Modo Oscuro</strong>. Esto ayuda a que
+            el portal se sienta como tú prefieras cada vez que vuelves.
+          </p>
+        </section>
+
+        <section>
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600"
+            >
+              <span class="text-sm">🤝</span>
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Colaboradores Externos
+            </h2>
+          </div>
+          <p>
+            Para mantener BrayNews gratuito, trabajamos con socios tecnológicos
+            que pueden mostrar contenido relevante basado en intereses
+            generales, siempre respetando los estándares de la industria.
+          </p>
+        </section>
+
+        <section>
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-600"
+            >
+              <span class="text-sm">🔗</span>
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Enlaces Oficiales
+            </h2>
+          </div>
+          <p>
+            Conectamos con medios de comunicación oficiales. Al salir de nuestro
+            portal, te recomendamos revisar las políticas de privacidad de los
+            sitios de destino.
+          </p>
+        </section>
+      </div>
+
+      <footer
+        class="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center"
+      >
+        <p
+          class="text-xs text-slate-400 mb-6 uppercase tracking-widest font-bold"
+        >
+          ¿Tienes dudas?
+        </p>
+        <Button href="/" variant="outline"> Volver a las Noticias </Button>
+      </footer>
+    </article>
+  </main>
+</Layout>

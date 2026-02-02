@@ -1,0 +1,117 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Button from "../components/ui/Button.astro";
+import Badge from "../components/ui/Badge.astro";
+
+const title = "Compromiso del Lector | BrayNews";
+---
+
+<Layout
+  title={title}
+  description="Términos y condiciones de uso de BrayNews. Información sobre nuestra naturaleza como agregador de noticias."
+>
+  <main class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <article class="animate-fade-in">
+      <header
+        class="border-b border-slate-100 dark:border-slate-800 pb-10 mb-12"
+      >
+        <div class="mb-4">
+          <Badge variant="general">Legal</Badge>
+        </div>
+        <h1
+          class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none"
+        >
+          Términos de <span class="text-blue-600">Uso</span>
+        </h1>
+        <p class="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium">
+          Transparencia y claridad sobre cómo funciona nuestro portal.
+        </p>
+      </header>
+
+      <div
+        class="space-y-12 text-slate-600 dark:text-slate-400 leading-relaxed text-base md:text-lg"
+      >
+        <section>
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="w-10 h-10 rounded-2xl bg-slate-900 dark:bg-blue-600 flex items-center justify-center text-white font-bold text-sm"
+            >
+              01
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Naturaleza del Servicio
+            </h2>
+          </div>
+          <p>
+            <strong>BrayNews</strong> funciona como un nodo centralizador de actualidad.
+            Nuestra tecnología organiza información de diversas fuentes oficiales
+            para que el acceso a la noticia sea más ágil. No generamos contenido propio,
+            facilitamos el acceso al periodismo profesional.
+          </p>
+        </section>
+
+        <section>
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="w-10 h-10 rounded-2xl bg-slate-900 dark:bg-blue-600 flex items-center justify-center text-white font-bold text-sm"
+            >
+              02
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Propiedad Intelectual
+            </h2>
+          </div>
+          <p>
+            Respetamos profundamente el trabajo periodístico. Cada tarjeta de
+            noticia enlaza directamente a su <strong>fuente original</strong>.
+            Los derechos de autor, imágenes y textos pertenecen exclusivamente
+            al medio emisor citado.
+          </p>
+        </section>
+
+        <section>
+          <div class="flex items-center gap-3 mb-4">
+            <div
+              class="w-10 h-10 rounded-2xl bg-slate-900 dark:bg-blue-600 flex items-center justify-center text-white font-bold text-sm"
+            >
+              03
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Uso Correcto y Responsabilidad
+            </h2>
+          </div>
+          <p>
+            Como lector, te comprometes a usar este portal de manera respetuosa. <strong
+              >BrayNews</strong
+            > no se hace responsable por las opiniones, cambios o veracidad de la
+            información vertida en los sitios externos enlazados.
+          </p>
+        </section>
+      </div>
+
+      <footer
+        class="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center gap-6"
+      >
+        <div class="text-center">
+          <p
+            class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-black"
+          >
+            Montería, Córdoba
+          </p>
+          <p class="text-xs text-slate-500 mt-1">
+            Última actualización: Febrero 2026
+          </p>
+        </div>
+        <Button href="/" variant="primary" class="w-full md:w-auto">
+          Acepto y quiero leer noticias
+        </Button>
+      </footer>
+    </article>
+  </main>
+</Layout>

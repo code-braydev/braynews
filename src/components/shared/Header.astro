@@ -1,0 +1,185 @@
+---
+const { pathname } = Astro.url;
+
+const navItems = [
+  { name: "Inicio", href: "/" },
+  { name: "Tech", href: "/categoria/tecnologia" },
+  { name: "Deportes", href: "/categoria/deportes" },
+  { name: "Política", href: "/categoria/politica" },
+  { name: "Finanzas", href: "/categoria/finanzas" },
+  { name: "Local", href: "/categoria/local" },
+];
+
+const isCurrentPage = (href: string) => {
+  if (href === "/" && pathname === "/") return true;
+  if (href !== "/" && pathname.startsWith(href)) return true;
+  return false;
+};
+---
+
+<header
+  class="sticky top-0 z-50 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-all duration-300"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-14 md:h-16">
+      <div class="flex items-center gap-2 min-w-0">
+        <a href="/" class="flex items-center gap-2 group">
+          <div
+            class="shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center overflow-hidden rounded-md"
+          >
+            <img
+              src="/logo.png"
+              alt="Logo de BrayNews"
+              class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+            />
+          </div>
+
+          <span
+            class="text-base md:text-lg font-black text-slate-900 dark:text-white tracking-tighter truncate uppercase"
+          >
+            BRAY<span class="text-blue-600">NEWS</span>
+          </span>
+        </a>
+      </div>
+
+      <nav class="hidden lg:flex items-center space-x-1">
+        {
+          navItems.map((item) => {
+            const active = isCurrentPage(item.href);
+            return (
+              <a
+                href={item.href}
+                class:list={[
+                  "px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 whitespace-nowrap",
+                  active
+                    ? "bg-blue-600 text-white shadow-md shadow-blue-400/20"
+                    : "text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800",
+                ]}
+              >
+                {item.name}
+              </a>
+            );
+          })
+        }
+      </nav>
+
+      <div class="flex items-center gap-2 md:gap-3 ml-2">
+        <div
+          id="interest-tag"
+          class="hidden sm:flex animate-fade-in px-2 py-1 rounded-full bg-linear-to-r from-blue-600 to-indigo-600 text-[8px] md:text-[9px] font-black text-white uppercase tracking-widest shadow-md"
+        >
+          PARA TI
+        </div>
+
+        <button
+          id="theme-toggle"
+          class="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-slate-200 dark:bg-slate-700 transition-colors duration-300 group"
+        >
+          <div
+            class="translate-x-1 dark:translate-x-6 flex h-4 w-4 items-center justify-center rounded-full bg-white dark:bg-blue-400 transition-transform duration-300 shadow-sm z-10"
+          >
+            <span class="dark:hidden text-[8px]">☀️</span>
+            <span class="hidden dark:block text-[8px]">🌙</span>
+          </div>
+        </button>
+
+        <button
+          class="lg:hidden p-1.5 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
+          id="mobile-menu-btn"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="bg-slate-50 dark:bg-slate-900/50 border-t border-slate-100 dark:border-slate-800 py-1.5"
+  >
+    <div class="max-w-7xl mx-auto px-4 text-center">
+      <div
+        class="w-full h-[60px] bg-slate-200/50 dark:bg-slate-800/50 rounded-xl border border-dashed border-slate-300 dark:border-slate-700 flex flex-col items-center justify-center overflow-hidden"
+      >
+        <span
+          class="text-[7px] font-black text-slate-400 uppercase tracking-widest"
+          >Publicidad</span
+        >
+        <div class="text-[9px] text-slate-500 italic">Banner Leaderboard</div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    id="mobile-menu"
+    class="hidden lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 space-y-2 absolute w-full shadow-xl"
+  >
+    {
+      navItems.map((item) => (
+        <a
+          href={item.href}
+          class="block px-4 py-3 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800"
+        >
+          {item.name}
+        </a>
+      ))
+    }
+  </div>
+</header>
+
+<script>
+  const themeToggle = document.getElementById("theme-toggle");
+  const html = document.documentElement;
+
+  themeToggle?.addEventListener("click", () => {
+    const isDark = html.classList.contains("dark");
+    if (isDark) {
+      html.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    } else {
+      html.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    }
+  });
+
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
+  btn?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+
+  const interestTag = document.getElementById("interest-tag");
+  const cookieValue = document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("pref_category="))
+    ?.split("=")[1];
+  if (cookieValue && interestTag) {
+    interestTag.classList.remove("hidden");
+    interestTag.classList.add("flex");
+  }
+</script>
+
+<style>
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,134 @@
+---
+// @ts-ignore
+import he from "he";
+import Badge from "../ui/Badge.astro";
+import ImageContainer from "../ui/ImageContainer.astro";
+import Button from "../ui/Button.astro";
+
+interface Props {
+  noticia: any;
+  variant?: "default" | "featured";
+  dark?: boolean;
+}
+
+const { noticia, variant = "default", dark = false } = Astro.props;
+
+const tituloLimpio = he.decode(noticia.title || "");
+const snippetLimpio = he.decode(noticia.contentSnippet || "");
+const fecha = new Date(noticia.pubDate).toLocaleDateString("es-CO", {
+  day: "2-digit",
+  month: "short",
+  year: "numeric",
+});
+
+const isFeatured = variant === "featured";
+---
+
+<article
+  class:list={[
+    "news-card group flex flex-col h-full rounded-2xl transition-all duration-500 border overflow-hidden",
+    isFeatured
+      ? "lg:grid lg:grid-cols-2 lg:gap-8 bg-blue-50/50 dark:bg-slate-900/50 border-blue-100 dark:border-slate-800 p-4 md:p-6"
+      : dark
+        ? "bg-slate-800 border-slate-700 text-white"
+        : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-1 hover:border-blue-400 dark:hover:border-blue-500",
+  ]}
+  data-category={noticia.category}
+>
+  <div
+    class:list={[
+      "overflow-hidden",
+      isFeatured ? "rounded-xl h-full" : "w-full",
+    ]}
+  >
+    <ImageContainer
+      src={noticia.thumbnail}
+      alt={tituloLimpio}
+      class:list={[
+        "transition-transform duration-700 group-hover:scale-110",
+        isFeatured
+          ? "h-64 lg:h-full min-h-[250px] lg:min-h-[400px]"
+          : "aspect-video md:aspect-16/10",
+      ]}
+    />
+  </div>
+
+  <div class="flex flex-col grow p-4 md:p-5 space-y-4">
+    <div class="flex justify-between items-center gap-2">
+      <Badge variant={noticia.category}>{noticia.category}</Badge>
+      <span
+        class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 truncate"
+      >
+        {noticia.sourceName}
+      </span>
+    </div>
+
+    <div class="space-y-3 grow">
+      <h3
+        class:list={[
+          "font-black leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300",
+          isFeatured
+            ? "text-2xl md:text-4xl lg:text-5xl"
+            : "text-lg md:text-xl line-clamp-2 md:line-clamp-3",
+          dark ? "text-white" : "text-slate-900 dark:text-white",
+        ]}
+      >
+        <a href={noticia.link} target="_blank" rel="noopener noreferrer"
+          >{tituloLimpio}</a
+        >
+      </h3>
+
+      <p
+        class:list={[
+          "text-sm leading-relaxed line-clamp-3",
+          dark ? "text-slate-400" : "text-slate-500 dark:text-slate-400",
+        ]}
+      >
+        {snippetLimpio}
+      </p>
+
+      {
+        isFeatured && (
+          <div class="pt-4">
+            <Button href={noticia.link} class="w-full md:w-auto">
+              Leer noticia completa
+            </Button>
+          </div>
+        )
+      }
+    </div>
+
+    <footer
+      class="pt-4 border-t border-slate-100 dark:border-slate-800/50 flex justify-between items-center"
+    >
+      <time
+        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic"
+      >
+        {fecha}
+      </time>
+
+      {
+        !isFeatured && (
+          <Button
+            href={noticia.link}
+            variant="ghost"
+            class="px-0! min-h-0! py-0! text-blue-600 dark:text-blue-400 hover:bg-transparent"
+          >
+            LEER MÁS →
+          </Button>
+        )
+      }
+    </footer>
+  </div>
+</article>
+<script>
+  const cards = document.querySelectorAll(".news-card");
+  cards.forEach((card) => {
+    card.addEventListener("click", () => {
+      const category = card.getAttribute("data-category");
+      if (category) {
+        document.cookie = `pref_category=${category}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
+      }
+    });
+  });
+</script>
