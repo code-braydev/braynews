@@ -1,24 +1,30 @@
 ---
-// src/layouts/Layout.astro
 import "../styles/global.css";
 import Header from "../components/shared/Header.astro";
 import Footer from "../components/shared/Footer.astro";
+import CookieConsent from "../components/CookieConsent.astro";
 
 interface Props {
   title: string;
   description?: string;
   author?: string;
+  keywords?: string;
+  ogType?: string;
+  ogImage?: string;
 }
 
 const {
   title,
-  description = "BrayNews: Tu portal de noticias inteligente con la actualidad de Montería, Córdoba y el mundo.",
+  description = "BrayNews: Tu portal de noticias inteligente con la actualidad de Montería, Córdoba y el mundo. Las mejores noticias de BrayDev.",
   author = "BrayDev",
+  keywords = "BrayNews, braydev noticias, noticias Montería, noticias Córdoba, noticias Colombia, actualidad monteria, noticias de BrayDev, noticias en tiempo real, portal de noticias",
+  ogType = "website",
+  ogImage = "/og-image.jpg",
 } = Astro.props;
 
 const canonicalURL = new URL(
   Astro.url.pathname,
-  Astro.site || "https://noticias.braydev.xyz",
+  Astro.site || "https://braydev.xyz",
 );
 ---
 
@@ -31,22 +37,36 @@ const canonicalURL = new URL(
     <title>{title}</title>
 
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
     <meta name="author" content={author} />
     <meta name="copyright" content={`© 2026 ${author}`} />
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="language" content="es-CO" />
+    <meta name="geo.placename" content="Montería, Córdoba, Colombia" />
+    <meta name="geo.region" content="CO-COR" />
+    <meta name="geo.position" content="8.7479;-75.8814" />
     <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="es" href={canonicalURL} />
+    <link rel="alternate" hreflang="es-CO" href={canonicalURL} />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
+    <meta property="og:image:alt" content={title} />
+    <meta property="og:image:type" content="image/jpeg" />
     <meta property="og:site_name" content="BrayNews" />
+    <meta property="og:locale" content="es_CO" />
 
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@braydev" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="/og-image.jpg" />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site).href} />
 
     <script is:inline>
       const theme = (() => {
@@ -67,10 +87,50 @@ const canonicalURL = new URL(
         document.documentElement.classList.remove("dark");
       }
     </script>
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8640842574866935"
-      crossorigin="anonymous"></script>
+
+    <!-- Schema.org JSON-LD: Organization & NewsMediaOrganization -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["NewsMediaOrganization", "Organization"],
+        "name": "BrayNews",
+        "alternateName": "Bray News",
+        "description": "Portal de noticias inteligente con actualidad de Montería, Córdoba y el mundo.",
+        "url": "https://braydev.xyz",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://braydev.xyz/logo.png",
+          "width": 500,
+          "height": 500
+        },
+        "image": "https://braydev.xyz/og-image.jpg",
+        "sameAs": ["https://twitter.com/braydev", "https://github.com/braydev"],
+        "founder": {
+          "@type": "Person",
+          "name": "BrayDev"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Montería",
+          "addressRegion": "Córdoba",
+          "addressCountry": "CO"
+        },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "Customer Service",
+          "url": "https://braydev.xyz/contacto"
+        },
+        "knowsAbout": [
+          "Noticias",
+          "Tecnología",
+          "Deportes",
+          "Política",
+          "Finanzas",
+          "Montería",
+          "Córdoba"
+        ]
+      }
+    </script>
   </head>
   <body
     class="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased"
@@ -79,42 +139,8 @@ const canonicalURL = new URL(
 
     <main class="grow relative">
       <slot />
+      <CookieConsent />
     </main>
-
     <Footer />
-
-    <script>
-      const initStickyAd = () => {
-        const ad = document.getElementById(
-          "sticky-ad-container",
-        ) as HTMLElement;
-        const footer = document.querySelector("footer") as HTMLElement;
-
-        if (ad && footer) {
-          ad.style.transition = "opacity 0.4s ease, transform 0.4s ease";
-
-          const observer = new IntersectionObserver(
-            (entries) => {
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  ad.style.opacity = "0";
-                  ad.style.transform = "translateY(20px) scale(0.95)";
-                  ad.style.pointerEvents = "none";
-                } else {
-                  ad.style.opacity = "1";
-                  ad.style.transform = "translateY(0) scale(1)";
-                  ad.style.pointerEvents = "auto";
-                }
-              });
-            },
-            { threshold: 0.1 },
-          );
-
-          observer.observe(footer);
-        }
-      };
-      document.addEventListener("DOMContentLoaded", initStickyAd);
-      document.addEventListener("astro:after-swap", initStickyAd);
-    </script>
   </body>
 </html>

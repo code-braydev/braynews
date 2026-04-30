@@ -1,17 +1,17 @@
 ---
-// @ts-ignore
 import he from "he";
 import Badge from "../ui/Badge.astro";
 import ImageContainer from "../ui/ImageContainer.astro";
 import Button from "../ui/Button.astro";
 
 interface Props {
+  id?: string;
   noticia: any;
   variant?: "default" | "featured";
   dark?: boolean;
 }
 
-const { noticia, variant = "default", dark = false } = Astro.props;
+const { id, noticia, variant = "default", dark = false } = Astro.props;
 
 const tituloLimpio = he.decode(noticia.title || "");
 const snippetLimpio = he.decode(noticia.contentSnippet || "");
@@ -25,6 +25,7 @@ const isFeatured = variant === "featured";
 ---
 
 <article
+  id={id}
   class:list={[
     "news-card group flex flex-col h-full rounded-2xl transition-all duration-500 border overflow-hidden",
     isFeatured
@@ -47,7 +48,7 @@ const isFeatured = variant === "featured";
       class:list={[
         "transition-transform duration-700 group-hover:scale-110",
         isFeatured
-          ? "h-64 lg:h-full min-h-[250px] lg:min-h-[400px]"
+          ? "h-64 lg:h-10/12 min-h-62.5 lg:min-h-100"
           : "aspect-video md:aspect-16/10",
       ]}
     />
@@ -68,7 +69,7 @@ const isFeatured = variant === "featured";
         class:list={[
           "font-black leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300",
           isFeatured
-            ? "text-2xl md:text-4xl lg:text-5xl"
+            ? "text-2xl md:text-3xl lg:text-4xl"
             : "text-lg md:text-xl line-clamp-2 md:line-clamp-3",
           dark ? "text-white" : "text-slate-900 dark:text-white",
         ]}
@@ -123,12 +124,21 @@ const isFeatured = variant === "featured";
 </article>
 <script>
   const cards = document.querySelectorAll(".news-card");
+
   cards.forEach((card) => {
     card.addEventListener("click", () => {
       const category = card.getAttribute("data-category");
-      if (category) {
-        document.cookie = `pref_category=${category}; path=/; max-age=${60 * 60 * 24 * 30}; SameSite=Lax`;
-      }
+      if (!category) return;
+
+      let interests = JSON.parse(
+        localStorage.getItem("user_interests") || "{}",
+      );
+
+      interests[category] = (interests[category] || 0) + 1;
+
+      localStorage.setItem("user_interests", JSON.stringify(interests));
+
+      document.cookie = `pref_category=${category}; path=/; max-age=2592000; SameSite=Lax`;
     });
   });
 </script>

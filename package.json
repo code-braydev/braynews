@@ -1,19 +1,35 @@
 {
-  "name": "news",
+  "name": "braynews",
   "type": "module",
-  "version": "0.0.1",
+  "version": "1.5.1",
+  "description": "Portal de noticias inteligente optimizado para Córdoba y el mundo, impulsado por Astro y Venus RSS.",
+  "author": "BrayDev <braydev.xyz>",
+  "license": "MIT",
+   "keywords": [
+    "braydev",
+    "noticias",
+    "brayan avila",
+    "astro",
+    "news-portal",
+    "rss",
+    "personalization",
+    "monteria",
+    "cordoba",
+    "tailwindcss-v4"
+  ],
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "clean": "rm -rf .astro dist node_modules && npm install"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/sitemap": "^3.7.2",
+    "@braydev/venus": "^2.0.0",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.1",
     "he": "^1.2.0",
-    "rss-parser": "^3.13.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

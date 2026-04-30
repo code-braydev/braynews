@@ -1,7 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getNews, SOURCES } from "../../lib/newsService";
-import Card from "../../components/new/Card.astro";
+import { getNews } from "../../lib/newsService";
+import { SOURCES, type Category } from "../../config/newsConfig";
+import NewCard from "../../components/new/NewCard.astro";
 import Button from "../../components/ui/Button.astro";
 
 export async function getStaticPaths() {
@@ -12,146 +13,102 @@ export async function getStaticPaths() {
 }
 
 const { categoria } = Astro.params;
-const news = await getNews(categoria as keyof typeof SOURCES);
+const selectedCategory =
+  categoria && categoria in SOURCES ? (categoria as Category) : undefined;
+const news = await getNews(selectedCategory);
 
 const categoryMap = {
-  tecnologia: {
-    label: "Tecnología",
-    desc: "Lo último en gadgets, software y avances tecnológicos.",
-  },
+  tecnologia: { label: "Tecnología", desc: "Gadgets, IA y el futuro digital." },
   deportes: {
     label: "Deportes",
-    desc: "Resultados, fichajes y toda la emoción del deporte mundial.",
+    desc: "Resultados y toda la pasión del deporte mundial.",
   },
   politica: {
     label: "Política",
-    desc: "Análisis y noticias de la situación política nacional e internacional.",
+    desc: "Análisis y actualidad del panorama político.",
   },
   finanzas: {
     label: "Finanzas",
-    desc: "Indicadores económicos, negocios y mercados financieros.",
+    desc: "Economía, mercados y el pulso del dinero.",
   },
   local: {
     label: "Montería y Córdoba",
-    desc: "Noticias de Montería, Córdoba y la región Caribe.",
-  },
-  general: {
-    label: "Nacional e Internacional",
-    desc: "Actualidad mundial y noticias de interés general.",
+    desc: "Lo que pasa en nuestra tierra, minuto a minuto.",
   },
 };
 
 const currentInfo = categoryMap[categoria as keyof typeof categoryMap] || {
-  label: categoria.charAt(0).toUpperCase() + categoria.slice(1),
+  label: categoria
+    ? categoria.charAt(0).toUpperCase() + categoria.slice(1)
+    : "General",
   desc: "Noticias actualizadas minuto a minuto.",
 };
-
-const titleDisplay = currentInfo.label;
-const metaDescription = currentInfo.desc;
 ---
 
-<Layout title={`${titleDisplay} | BrayNews`} description={metaDescription}>
+<Layout
+  title={`${currentInfo.label} | BrayNews`}
+  description={currentInfo.desc}
+>
   <main class="max-w-7xl mx-auto px-4 py-10">
-    <header class="mb-12 border-l-8 border-blue-600 pl-6 py-2 transition-all">
+    <!-- HEADER DE CATEGORÍA -->
+    <header class="mb-12 border-l-8 border-blue-600 pl-6 py-2">
       <nav
-        class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2"
+        class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-3"
       >
-        <a href="/" class="hover:underline">Inicio</a> / <span
-          class="text-slate-400">Categoría</span
+        <a
+          href="/"
+          class="hover:text-slate-900 dark:hover:text-white transition"
+          >Inicio</a
         >
+        <span class="mx-2 text-slate-300">/</span>
+        <span class="text-slate-400">Categoría</span>
       </nav>
       <h1
-        class="text-4xl md:text-6xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+        class="text-5xl md:text-7xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none"
       >
-        {titleDisplay}
+        {currentInfo.label}
       </h1>
       <p
-        class="text-lg text-slate-500 dark:text-slate-400 mt-2 max-w-2xl font-medium leading-relaxed"
+        class="text-lg md:text-xl text-slate-500 dark:text-slate-400 mt-4 max-w-2xl font-medium leading-relaxed"
       >
-        {metaDescription}
+        {currentInfo.desc}
       </p>
     </header>
 
-    <div class="flex flex-col lg:flex-row gap-12 xl:gap-16">
-      <div class="lg:w-3/4">
-        {
-          news.length > 0 ? (
-            <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {news.map((noticia, index) => (
-                <>
-                  <Card noticia={noticia} />
-                  {/* Anuncio intercalado cada 4 noticias SOLO en móvil */}
-                  {(index + 1) % 4 === 0 && (
-                    <div class="lg:hidden col-span-1 bg-slate-50 dark:bg-slate-900/50 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[30px] p-8 h-64 flex flex-col items-center justify-center text-center">
-                      <span class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-2">
-                        Publicidad
-                      </span>
-                      <p class="text-xs text-slate-500 italic">
-                        Anuncio In-Feed
-                      </p>
-                    </div>
-                  )}
-                </>
-              ))}
-            </section>
-          ) : (
-            <section class="flex flex-col items-center justify-center py-32 text-center bg-slate-50 dark:bg-slate-900/50 rounded-[40px] border border-dashed border-slate-200 dark:border-slate-800 px-6">
-              <div class="text-7xl mb-6 animate-bounce">📰</div>
-              <h2 class="text-3xl font-black text-slate-800 dark:text-slate-200 uppercase tracking-tighter">
-                No hay noticias
-              </h2>
-              <div class="mt-10">
-                <Button href="/">VOLVER AL INICIO</Button>
-              </div>
-            </section>
-          )
-        }
-      </div>
-
-      <aside class="hidden lg:block lg:w-1/4">
-        <div class="sticky top-40 flex flex-col h-[calc(100vh-140px)]">
-          <div
-            class="grow bg-slate-50 dark:bg-slate-900/50 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[40px] p-6 flex flex-col items-center justify-center text-center transition-colors group hover:border-blue-500/30"
-          >
-            <span
-              class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-4 group-hover:text-blue-500 transition-colors"
-              >Patrocinado</span
-            >
-            <div class="space-y-4">
-              <div
-                class="w-12 h-12 bg-slate-200 dark:bg-slate-800 rounded-full mx-auto flex items-center justify-center text-xl"
-              >
-                📈
-              </div>
-              <p
-                class="text-[11px] text-slate-500 dark:text-slate-400 px-2 leading-relaxed font-medium"
-              >
-                Espacio optimizado para anuncios verticales de alto impacto.
-              </p>
-            </div>
-          </div>
-
-          <div
-            class="mt-8 p-6 bg-blue-600 rounded-[30px] text-white shadow-xl shadow-blue-500/20"
-          >
-            <h4 class="font-black uppercase tracking-tighter text-xl">
-              ¿Te gusta BrayNews?
-            </h4>
-            <p class="text-blue-100 text-xs mt-2 font-medium leading-tight">
-              Compártelo con tus amigos en Montería y Córdoba.
-            </p>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <div
-      class="mt-20 p-10 bg-slate-50 dark:bg-slate-900/50 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-[40px] text-center group hover:border-blue-400 dark:hover:border-blue-500 transition-colors"
-    >
-      <span
-        class="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] group-hover:text-blue-500 transition-colors"
-        >Espacio Publicitario de Google AdSense</span
-      >
-    </div>
+    <!-- GRID DE NOTICIAS: 1 col móvil, 2 tablet, 3 PC -->
+    {
+      news.length > 0 ? (
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {news.map((noticia) => (
+            <NewCard noticia={noticia} />
+          ))}
+        </section>
+      ) : (
+        /* EMPTY STATE */
+        <section class="flex flex-col items-center justify-center py-32 text-center bg-slate-50 dark:bg-slate-900/50 rounded-[40px] border border-dashed border-slate-200 dark:border-slate-800 px-6">
+          <div class="text-7xl mb-6 animate-pulse">🗞️</div>
+          <h2 class="text-3xl font-black text-slate-800 dark:text-slate-200 uppercase tracking-tighter">
+            Sin noticias en esta sección
+          </h2>
+          <p class="text-slate-500 mt-4 mb-10">
+            Estamos actualizando las fuentes para traerte lo mejor.
+          </p>
+          <Button href="/">VOLVER AL INICIO</Button>
+        </section>
+      )
+    }
   </main>
 </Layout>
+
+<script is:inline define:vars={{ categoria }}>
+  // Lógica de Auto-Aprendizaje:
+  // Si el usuario entra a la página de categoría, actualizamos su interés automáticamente.
+  if (categoria) {
+    document.cookie = `pref_category=${categoria}; path=/; max-age=2592000; SameSite=Lax`;
+
+    // También actualizamos el contador de intereses en localStorage
+    let interests = JSON.parse(localStorage.getItem("user_interests") || "{}");
+    interests[categoria] = (interests[categoria] || 0) + 1;
+    localStorage.setItem("user_interests", JSON.stringify(interests));
+  }
+</script>

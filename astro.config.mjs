@@ -5,14 +5,14 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://noticias.braydev.xyz', 
+  site: 'https://braydev.xyz',
   vite: {
     plugins: [tailwindcss()],
   },
   integrations: [
     sitemap()
   ],
-  output: 'static', 
+  output: 'static',
   build: {
     inlineStylesheets: 'always'
   }

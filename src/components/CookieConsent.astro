@@ -1,0 +1,68 @@
+---
+import Button from "./ui/Button.astro"; // Usando tu componente de botón
+---
+
+<div
+  id="cookie-banner"
+  class="fixed bottom-6 left-6 right-6 md:left-auto md:right-10 md:max-w-sm z-50 transform translate-y-20 opacity-0 transition-all duration-500 ease-out hidden"
+>
+  <div
+    class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-3xl p-6 md:p-8"
+  >
+    <div class="flex items-center gap-3 mb-4">
+      <div
+        class="w-10 h-10 rounded-2xl bg-blue-600/10 flex items-center justify-center text-xl"
+      >
+        🍪
+      </div>
+      <h2
+        class="font-black text-slate-900 dark:text-white uppercase tracking-tighter text-lg"
+      >
+        Privacidad <span class="text-blue-600">&</span> Cookies
+      </h2>
+    </div>
+
+    <p class="text-sm text-slate-500 dark:text-slate-400 leading-relaxed mb-6">
+      Al navegar en <strong>BrayNews</strong>, aceptas nuestros
+      <a href="/terminos" class="text-blue-600 underline font-bold"
+        >Términos de Uso</a
+      > y el uso de cookies para mejorar tu experiencia.
+    </p>
+
+    <div class="flex flex-col gap-3">
+      <Button
+        id="accept-cookies"
+        class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-xs rounded-2xl transition-all active:scale-95"
+      >
+        Aceptar y Continuar
+      </Button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const banner = document.getElementById("cookie-banner");
+  const acceptBtn = document.getElementById("accept-cookies");
+
+  // Verificar si ya aceptó previamente
+  if (!localStorage.getItem("braynews-consent")) {
+    // Pequeño delay para que se vea elegante al cargar
+    setTimeout(() => {
+      banner?.classList.remove("hidden");
+      setTimeout(() => {
+        banner?.classList.remove("translate-y-20", "opacity-0");
+      }, 100);
+    }, 1000);
+  }
+
+  acceptBtn?.addEventListener("click", () => {
+    // Guardar preferencia
+    localStorage.setItem("braynews-consent", "true");
+
+    // Animación de salida
+    banner?.classList.add("translate-y-20", "opacity-0");
+    setTimeout(() => {
+      banner?.classList.add("hidden");
+    }, 500);
+  });
+</script>

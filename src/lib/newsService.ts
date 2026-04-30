@@ -1,157 +1,95 @@
-import Parser from "rss-parser";
+import { getRss, type VenusRssItem } from "@braydev/venus";
+import { SOURCES, type NewsItem, type Category } from "../config/newsConfig";
 
-const parser = new Parser({
-  customFields: {
-    item: [
-      ["media:content", "mediaContent"],
-      ["enclosure", "enclosure"],
-      ["content:encoded", "contentEncoded"],
-    ],
-  },
-});
+const IMG_SRC_REGEX = /<img[^>]+src=["']([^"']+)["']/i;
 
-export const SOURCES = {
-  general: [
-    {
-      name: "El Espectador",
-      url: "https://www.elespectador.com/arc/outboundfeeds/discover/?outputType=xml",
-    },
-    { name: "El Tiempo", url: "https://www.eltiempo.com/rss/colombia.xml" },
-    { name: "BBC Mundo", url: "https://feeds.bbci.co.uk/mundo/rss.xml" },
-    { name: "CNN en Español", url: "https://cnnespanol.cnn.com/feed/" },
-    {
-      name: "El País (América)",
-      url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada",
-    },
-    { name: "DW Actualidad", url: "https://rss.dw.com/rdf/rss-sp-all" },
-    { name: "France 24", url: "https://www.france24.com/es/rss" },
-    { name: "La Republica", url: "https://www.larepublica.co/rss" },
-  ],
-  tecnologia: [
-    { name: "Xataka", url: "https://feeds.feedburner.com/xataka2" },
-    { name: "Applesfera", url: "https://feeds.feedburner.com/applesfera" },
-    { name: "Genbeta", url: "https://feeds.feedburner.com/genbeta" },
-    {
-      name: "Wired Tech",
-      url: "https://www.wired.com/feed/category/gear/latest/rss",
-    },
-    { name: "The Verge", url: "https://www.theverge.com/rss/index.xml" },
-    { name: "Hipertextual", url: "https://hipertextual.com/feed" },
-  ],
-  deportes: [
-    { name: "Marca", url: "https://e00-marca.uecdn.es/rss/portada.xml" },
-    {
-      name: "AS Colombia",
-      url: "https://colombia.as.com/rss/tags/ultimas_noticias/a/",
-    },
-    { name: "ESPN", url: "https://www.espn.com.co/espn/rss/news" },
-    {
-      name: "El Tiempo Deportes",
-      url: "https://www.eltiempo.com/rss/deportes.xml",
-    },
-  ],
-  politica: [
-    {
-      name: "El Espectador Política",
-      url: "https://www.elespectador.com/arc/outboundfeeds/politica/?outputType=xml",
-    },
-    { name: "Semana Política", url: "https://www.semana.com/rss/politica" },
-    { name: "La Silla Vacía", url: "https://www.lasillavacia.com/feed/" },
-  ],
-  finanzas: [
-    { name: "Portafolio", url: "https://www.portafolio.co/rss/negocios" },
-    { name: "La República", url: "https://www.larepublica.co/rss" },
-    { name: "Forbes Colombia", url: "https://forbes.co/feed/" },
-    { name: "Bloomberg", url: "https://www.bloomberglinea.com/index.xml" },
-  ],
-  local: [
-    { name: "Chicanoticias", url: "https://www.chicanoticias.com/feed/" },
-    { name: "GS Noticias", url: "https://gsnoticias.com/feed/" },
-    { name: "Montería Radio 38", url: "https://www.monteriaradio.com/feed/" },
-    { name: "Zenu Radio", url: "https://zenuradio.com/feed/" },
-  ],
+const transformItem = (
+  item: VenusRssItem,
+  sourceName: string,
+  category: Category,
+): NewsItem => {
+  // 1. Forzamos a 'any' solo para buscar propiedades que no están en el tipo oficial
+  const rawItem = item as any;
+
+  const htmlContent = item.content || item.description || "";
+
+  const rawSnippet = htmlContent
+    .replace(/<[^>]*>?/gm, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  // 2. Intentamos buscar en orden de probabilidad:
+  // enclosure -> media -> regex en el HTML
+  const thumb =
+    rawItem.enclosure?.url ||
+    rawItem.media?.content?.[0]?.url ||
+    rawItem.media?.thumbnail?.[0]?.url ||
+    htmlContent.match(IMG_SRC_REGEX)?.[1] ||
+    "/placeholder-news.jpg"; // Un fallback por si acaso
+
+  return {
+    title: (item.title || "Sin título").trim(),
+    link: item.link || "#",
+    pubDate: item.pubDate || new Date().toISOString(),
+    contentSnippet:
+      rawSnippet.slice(0, 160) + (rawSnippet.length >= 160 ? "..." : ""),
+    category,
+    sourceName,
+    thumbnail: thumb,
+  };
 };
 
-function cleanXml(rawXml: string) {
-  return rawXml
-    .replace(/&(?!(?:amp|lt|gt|quot|apos);)/g, "&amp;")
-    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
-    .trim();
-}
+// ... tus otros imports
 
-export async function getNews(category?: keyof typeof SOURCES) {
+export async function getNews(
+  category?: Category,
+  topInterest?: string, // <--- Añadimos esto
+): Promise<NewsItem[]> {
   const selectedSources = category
     ? SOURCES[category].map((s) => ({ ...s, category }))
     : Object.entries(SOURCES).flatMap(([cat, srcs]) =>
-        srcs.map((s) => ({ ...s, category: cat })),
+        srcs.map((s) => ({ ...s, category: cat as Category })),
       );
 
   const allNews = await Promise.all(
     selectedSources.map(async (source) => {
-      try {
-        const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 5000);
+      const { ok, data } = await getRss(source.url, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 ...",
+          Accept: "application/rss+xml, ...",
+        },
+        timeout: 8000,
+        rssMode: "lenient",
+      });
 
-        const response = await fetch(source.url, {
-          method: "GET",
-          signal: controller.signal,
-          headers: {
-            "User-Agent": "Mozilla/5.0 BrayNews-Bot/1.0", // User agent más limpio
-            Accept: "application/rss+xml, application/xml, text/xml, */*",
-          },
-        });
-        clearTimeout(timeout);
+      if (!ok || !data?.items?.length) return [];
 
-        if (!response.ok) return [];
-
-        const rawData = await response.text();
-        if (rawData.toLowerCase().includes("<!doctype html>")) return [];
-
-        const feed = await parser.parseString(cleanXml(rawData));
-
-        return feed.items.map((item: any) => {
-          let thumb =
-            item.enclosure?.url ||
-            item.mediaContent?.url ||
-            item.mediaContent?.["$"]?.url ||
-            item["media:content"]?.["$"]?.url ||
-            null;
-
-          const fullContent =
-            item.contentEncoded || item.content || item.contentSnippet || "";
-
-          if (!thumb && fullContent) {
-            const imgMatch = fullContent.match(/<img[^>]+src="([^">]+)"/);
-            thumb = imgMatch ? imgMatch[1] : null;
-          }
-
-          const cleanSnippet = (item.contentSnippet || item.content || "")
-            .replace(/<[^>]*>?/gm, "")
-            .replace(/\s+/g, " ")
-            .trim()
-            .slice(0, 160);
-
-          return {
-            title: (item.title || "Sin título").trim(),
-            link: item.link || "#",
-            pubDate: item.pubDate || new Date().toISOString(),
-            contentSnippet:
-              cleanSnippet + (cleanSnippet.length >= 160 ? "..." : ""),
-            category: source.category as any,
-            sourceName: source.name,
-            thumbnail: thumb || undefined,
-          };
-        });
-      } catch (e) {
-        // Silencio absoluto en producción para mejorar el rendimiento de logs
-        return [];
-      }
+      return data.items.map((item) =>
+        transformItem(item, source.name, source.category),
+      );
     }),
   );
 
-  return allNews
-    .flat()
-    .sort(
-      (a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime(),
-    );
+  const flattenedNews = allNews.flat();
+
+  // ALGORITMO DE PERSONALIZACIÓN
+  return flattenedNews.sort((a, b) => {
+    const dateA = new Date(a.pubDate).getTime();
+    const dateB = new Date(b.pubDate).getTime();
+
+    // 1. Calculamos un "boost" de tiempo (ej. 2 horas en milisegundos)
+    // Esto hace que si una noticia es de su interés, "parezca" más nueva de lo que es
+    const hourInMs = 1000 * 60 * 60;
+    const boost = 4 * hourInMs; // 4 horas de ventaja a lo que le gusta
+
+    let scoreA = dateA;
+    let scoreB = dateB;
+
+    if (topInterest) {
+      if (a.category === topInterest) scoreA += boost;
+      if (b.category === topInterest) scoreB += boost;
+    }
+
+    return scoreB - scoreA;
+  });
 }

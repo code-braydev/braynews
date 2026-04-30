@@ -1,43 +1,60 @@
-# Astro Starter Kit: Minimal
+﻿# 📰 BrayNews v1.5.1
 
-```sh
-npm create astro@latest -- --template minimal
-```
+**Portal de noticias inteligente y personalizado.**
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+![Banner](https://braydev.xyz/og-image.jpg)
 
-## 🚀 Project Structure
+### 🚀 Sobre el Proyecto
 
-Inside of your Astro project, you'll see the following folders and files:
+**BrayNews** es un portal de noticias de alto rendimiento diseñado para conectar a los usuarios con la actualidad de **Montería, Córdoba y el mundo**. Desarrollado por **BrayDev**, este proyecto utiliza el poder de **Astro** y el orquestador **Venus** para ofrecer una experiencia informativa rápida, estética y altamente relevante.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+---
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+### ✨ Características Principales
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- **Algoritmo de Personalización SSR:** El sistema detecta intereses mediante cookies y reorganiza el feed de inicio en el servidor para evitar parpadeos (Layout Shift).
+- **Diseño Adaptativo (Grid 3 Columnas):** Interfaz optimizada con una rejilla de 3 columnas para escritorio y una vista simplificada para dispositivos móviles.
+- **SEO de Alto Nivel:** Configuración avanzada de **JSON-LD (NewsMediaOrganization)**, metatags de Open Graph y optimización local para la región de Córdoba.
+- **Estética Neon Dark:** Interfaz diseñada bajo la identidad visual "Neon Dark" de BrayDev, con soporte para modo oscuro persistente y detección de preferencias del sistema.
+- **Orquestador Venus:** Integración de la librería propia `@braydev/venus` para la extracción y gestión eficiente de flujos de datos RSS.
 
-Any static assets, like images, can be placed in the `public/` directory.
+---
 
-## 🧞 Commands
+### 🛠️ Stack Tecnológico
 
-All commands are run from the root of the project, from a terminal:
+- **Framework:** Astro v5.17.1 (Zero JS por defecto).
+- **Estilos:** Tailwind CSS v4.1.18 (Configuración Neon).
+- **Lógica:** TypeScript + @braydev/venus.
+- **SEO:** @astrojs/sitemap + Schema.org.
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+---
 
-## 👀 Want to learn more?
+### 📦 Estructura del Ecosistema
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Para optimizar el SEO y la monetización, el ecosistema de **BrayDev** se divide en:
+
+- **Noticias:** [braydev.xyz](https://braydev.xyz) (Dominio principal).
+- **Portafolio:** [portfolio.braydev.xyz](https://portfolio.braydev.xyz) (Subdominio profesional).
+
+---
+
+### ⌨️ Comandos del Desarrollador
+
+| Comando             | Acción                                                             |
+| :------------------ | :----------------------------------------------------------------- |
+| `npm run dev`       | Inicia el servidor de desarrollo en `localhost:4321`.              |
+| `npm run build`     | Genera la versión de producción y el sitemap en `/dist`.           |
+| `npm run clean`     | Resetea el caché, elimina `node_modules` y reinstala dependencias. |
+| `npm run astro ...` | Ejecuta comandos de la CLI de Astro.                               |
+
+---
+
+### 🌐 Configuración Local (SEO Córdoba)
+
+El portal está optimizado para la indexación regional en **Colombia**:
+
+- **Ubicación:** Montería, Córdoba.
+
+---
+
+> Proyecto desarrollado por **BrayDev** - Estudiante de Licenciatura en Informática y Medios Audiovisuales de la **Universidad de Córdoba**.

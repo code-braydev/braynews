@@ -1,0 +1,21 @@
+---
+import NewCard from "./NewCard.astro";
+
+const { news } = Astro.props;
+
+const featuredNews = news[0];
+const remainingNews = news.slice(1);
+---
+
+<section class="flex flex-col gap-8 md:gap-12 py-8">
+  {
+    featuredNews && (
+      <div class="w-full">
+        <NewCard noticia={featuredNews} variant="featured" />
+      </div>
+    )
+  }
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+    {remainingNews.map((noticia: any) => <NewCard noticia={noticia} />)}
+  </div>
+</section>
