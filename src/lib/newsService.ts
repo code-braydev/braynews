@@ -39,11 +39,11 @@ const transformItem = (
   };
 };
 
-// ... tus otros imports
+// ... (transformItem se mantiene igual)
 
 export async function getNews(
   category?: Category,
-  topInterest?: string, // <--- Añadimos esto
+  topInterest?: string,
 ): Promise<NewsItem[]> {
   const selectedSources = category
     ? SOURCES[category].map((s) => ({ ...s, category }))
@@ -53,16 +53,22 @@ export async function getNews(
 
   const allNews = await Promise.all(
     selectedSources.map(async (source) => {
-      const { ok, data } = await getRss(source.url, {
-        headers: {
-          "User-Agent": "Mozilla/5.0 ...",
-          Accept: "application/rss+xml, ...",
-        },
+      // 1. Extraemos los 3 parámetros de Venus
+      const { ok, data, error, errorCode, status } = await getRss(source.url, {
         timeout: 8000,
         rssMode: "lenient",
       });
 
-      if (!ok || !data?.items?.length) return [];
+      // 2. Si hay error, lo logueamos para verlo en el dashboard de Vercel
+      if (!ok) {
+        console.error(
+          `[Venus Error] Fuente: ${source.name} | Motivo: ${error || errorCode || status || "Timeout"}`,
+        );
+        return [];
+      }
+
+      // 3. Validación extra de seguridad para los items
+      if (!data?.items || !Array.isArray(data.items)) return [];
 
       return data.items.map((item) =>
         transformItem(item, source.name, source.category),
@@ -72,15 +78,16 @@ export async function getNews(
 
   const flattenedNews = allNews.flat();
 
-  // ALGORITMO DE PERSONALIZACIÓN
+  // 4. Protección en el Sort (Fechas inválidas)
   return flattenedNews.sort((a, b) => {
-    const dateA = new Date(a.pubDate).getTime();
-    const dateB = new Date(b.pubDate).getTime();
+    // Si pubDate viene mal, usamos el tiempo actual para que no de NaN
+    const dateA = new Date(a.pubDate || Date.now()).getTime();
+    const dateB = new Date(b.pubDate || Date.now()).getTime();
 
-    // 1. Calculamos un "boost" de tiempo (ej. 2 horas en milisegundos)
-    // Esto hace que si una noticia es de su interés, "parezca" más nueva de lo que es
+    if (isNaN(dateA) || isNaN(dateB)) return 0; // Evita que el sort rompa la función
+
     const hourInMs = 1000 * 60 * 60;
-    const boost = 4 * hourInMs; // 4 horas de ventaja a lo que le gusta
+    const boost = 4 * hourInMs;
 
     let scoreA = dateA;
     let scoreB = dateB;

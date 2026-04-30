@@ -1,5 +1,5 @@
 ---
-import Button from "./ui/Button.astro"; // Usando tu componente de botón
+import Button from "./ui/Button.astro";
 ---
 
 <div
@@ -44,9 +44,7 @@ import Button from "./ui/Button.astro"; // Usando tu componente de botón
   const banner = document.getElementById("cookie-banner");
   const acceptBtn = document.getElementById("accept-cookies");
 
-  // Verificar si ya aceptó previamente
   if (!localStorage.getItem("braynews-consent")) {
-    // Pequeño delay para que se vea elegante al cargar
     setTimeout(() => {
       banner?.classList.remove("hidden");
       setTimeout(() => {
@@ -56,10 +54,8 @@ import Button from "./ui/Button.astro"; // Usando tu componente de botón
   }
 
   acceptBtn?.addEventListener("click", () => {
-    // Guardar preferencia
     localStorage.setItem("braynews-consent", "true");
 
-    // Animación de salida
     banner?.classList.add("translate-y-20", "opacity-0");
     setTimeout(() => {
       banner?.classList.add("hidden");
