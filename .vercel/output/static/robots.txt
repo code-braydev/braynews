@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/private/
+Disallow: /dist/
+Disallow: /*.json$
+
+Sitemap: https://braydev.xyz/sitemap-index.xml

@@ -1,0 +1,51 @@
+import { c as createComponent } from './astro-component_eBedEnUG.mjs';
+import 'piccolore';
+import { l as renderComponent, r as renderTemplate, m as maybeRenderHead, h as addAttribute } from './entrypoint_BIWdabtt.mjs';
+import { $ as $$Layout, a as $$Badge } from './Badge_C2L7RpmF.mjs';
+
+const $$Contacto = createComponent(($$result, $$props, $$slots) => {
+  const title = "Contacto | BrayNews";
+  const contactEmail = "code.braydev@gmail.com";
+  return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": title, "description": "Ponte en contacto con el equipo de BrayNews para publicidad, gestión de fuentes o soporte técnico." }, { "default": ($$result2) => renderTemplate` ${maybeRenderHead()}<main class="max-w-3xl mx-auto px-6 py-16 md:py-24"> <article class="animate-fade-in"> <header class="border-b border-slate-100 dark:border-slate-800 pb-10 mb-12"> <div class="mb-4"> ${renderComponent($$result2, "Badge", $$Badge, { "variant": "general" }, { "default": ($$result3) => renderTemplate`Soporte` })} </div> <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none">
+Canales de <span class="text-blue-600">Contacto</span> </h1> <p class="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium">
+¿Tienes dudas, quieres anunciarte o reportar un error? Escríbenos
+          directamente.
+</p> </header> <div class="space-y-12"> <section class="bg-slate-50 dark:bg-slate-900/50 p-8 rounded-3xl border border-slate-100 dark:border-slate-800 text-center"> <h2 class="text-sm uppercase tracking-widest font-black text-slate-400 mb-2">
+Correo Electrónico
+</h2> <a${addAttribute(`mailto:${contactEmail}`, "href")} class="text-2xl md:text-3xl font-black text-blue-600 dark:text-blue-400 hover:scale-105 transition-transform block break-all"> ${contactEmail} </a> </section> <section> <h2 class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter mb-6">
+¿Cómo podemos ayudarte?
+</h2> <div class="grid gap-6"> <div class="flex gap-4 items-start"> <div class="w-8 h-8 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xs">
+A
+</div> <div> <h3 class="font-bold text-slate-900 dark:text-white">
+Publicidad y Negocios
+</h3> <p class="text-slate-500 dark:text-slate-400 text-sm">
+Para pautas o colaboraciones. Asunto: <span class="font-mono text-blue-500">[Publicidad]</span> </p> </div> </div> <div class="flex gap-4 items-start"> <div class="w-8 h-8 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xs">
+B
+</div> <div> <h3 class="font-bold text-slate-900 dark:text-white">
+Gestión de Fuentes
+</h3> <p class="text-slate-500 dark:text-slate-400 text-sm">
+Reportar enlaces rotos o actualizar información. Asunto: <span class="font-mono text-blue-500">[Fuentes]</span> </p> </div> </div> <div class="flex gap-4 items-start"> <div class="w-8 h-8 rounded-lg bg-blue-600/10 text-blue-600 flex items-center justify-center shrink-0 font-bold text-xs">
+C
+</div> <div> <h3 class="font-bold text-slate-900 dark:text-white">
+Soporte Técnico
+</h3> <p class="text-slate-500 dark:text-slate-400 text-sm">
+Errores en la plataforma o bugs. Asunto: <span class="font-mono text-blue-500">[Soporte]</span> </p> </div> </div> </div> </section> </div> <footer class="mt-16 pt-10 border-t border-slate-100 dark:border-slate-800 flex flex-col items-center gap-6"> <div class="text-center"> <p class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-black">
+Montería, Córdoba - Colombia
+</p> <p class="text-xs text-slate-500 mt-1">
+Respondemos en menos de 24 horas hábiles.
+</p> </div> </footer> </article> </main> ` })}`;
+}, "/home/braydev/projects/Braydev/news/src/pages/contacto.astro", void 0);
+
+const $$file = "/home/braydev/projects/Braydev/news/src/pages/contacto.astro";
+const $$url = "/contacto";
+
+const _page = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+  __proto__: null,
+  default: $$Contacto,
+  file: $$file,
+  url: $$url
+}, Symbol.toStringTag, { value: 'Module' }));
+
+const page = () => _page;
+
+export { page };

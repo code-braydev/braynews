@@ -26,13 +26,16 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
+    "@astrojs/vercel": "^10.0.6",
     "@braydev/venus": "^2.0.1",
-    "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.17.1",
+    "astro": "^6.1.10",
     "he": "^1.2.0",
-    "tailwindcss": "^4.1.18"
+    "vite": "^8.0.10"
   },
   "devDependencies": {
-    "@types/he": "^1.2.3"
+    "@tailwindcss/postcss": "^4.2.4",
+    "@types/he": "^1.2.3",
+    "postcss": "^8.5.12",
+    "tailwindcss": "^4.2.4"
   }
 }
