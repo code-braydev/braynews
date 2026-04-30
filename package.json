@@ -5,7 +5,7 @@
   "description": "Portal de noticias inteligente optimizado para Córdoba y el mundo, impulsado por Astro y Venus RSS.",
   "author": "BrayDev <braydev.xyz>",
   "license": "MIT",
-   "keywords": [
+  "keywords": [
     "braydev",
     "noticias",
     "brayan avila",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
-    "@braydev/venus": "^2.0.0",
+    "@braydev/venus": "^2.0.1",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.17.1",
     "he": "^1.2.0",
