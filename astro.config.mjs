@@ -11,5 +11,15 @@ export default defineConfig({
   integrations: [sitemap()],
   build: {
     inlineStylesheets: 'always'
+  },
+  vite: {
+    ssr: {
+      // Forzamos a que Venus y otras dependencias se empaqueten 
+      // dentro del archivo entry.mjs para que Vercel no tenga que buscarlas
+      noExternal: ['@braydev/venus']
+    },
+    optimizeDeps: {
+      exclude: ['@braydev/venus']
+    }
   }
 });
