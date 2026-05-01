@@ -8,7 +8,6 @@ const transformItem = (
   sourceName: string,
   category: Category,
 ): NewsItem => {
-  // 1. Forzamos a 'any' solo para buscar propiedades que no están en el tipo oficial
   const rawItem = item as any;
 
   const htmlContent = item.content || item.description || "";
@@ -18,14 +17,12 @@ const transformItem = (
     .replace(/\s+/g, " ")
     .trim();
 
-  // 2. Intentamos buscar en orden de probabilidad:
-  // enclosure -> media -> regex en el HTML
   const thumb =
     rawItem.enclosure?.url ||
     rawItem.media?.content?.[0]?.url ||
     rawItem.media?.thumbnail?.[0]?.url ||
     htmlContent.match(IMG_SRC_REGEX)?.[1] ||
-    "/placeholder-news.jpg"; // Un fallback por si acaso
+    null;
 
   return {
     title: (item.title || "Sin título").trim(),
@@ -39,8 +36,6 @@ const transformItem = (
   };
 };
 
-// ... (transformItem se mantiene igual)
-
 export async function getNews(
   category?: Category,
   topInterest?: string,
@@ -51,24 +46,23 @@ export async function getNews(
         srcs.map((s) => ({ ...s, category: cat as Category })),
       );
 
-  const allNews = await Promise.all(
+  const allNews = await Promise.allSettled(
     selectedSources.map(async (source) => {
-      // 1. Extraemos los 3 parámetros de Venus
-      const { ok, data, error, errorCode, status } = await getRss(source.url, {
+      const { ok, data, error } = await getRss(source.url, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 ...",
+          Accept: "application/rss+xml, ...",
+        },
         timeout: 8000,
         rssMode: "lenient",
       });
 
-      // 2. Si hay error, lo logueamos para verlo en el dashboard de Vercel
-      if (!ok) {
-        console.error(
-          `[Venus Error] Fuente: ${source.name} | Motivo: ${error || errorCode || status || "Timeout"}`,
-        );
+      if (!ok || !data?.items?.length) {
+        if (!ok) {
+          console.warn(`[NewsService] RSS failed for ${source.name}: ${error}`);
+        }
         return [];
       }
-
-      // 3. Validación extra de seguridad para los items
-      if (!data?.items || !Array.isArray(data.items)) return [];
 
       return data.items.map((item) =>
         transformItem(item, source.name, source.category),
@@ -76,15 +70,14 @@ export async function getNews(
     }),
   );
 
-  const flattenedNews = allNews.flat();
+  const flattenedNews = allNews
+    .filter((result) => result.status === "fulfilled")
+    .map((result) => (result.status === "fulfilled" ? result.value : []))
+    .flat();
 
-  // 4. Protección en el Sort (Fechas inválidas)
   return flattenedNews.sort((a, b) => {
-    // Si pubDate viene mal, usamos el tiempo actual para que no de NaN
-    const dateA = new Date(a.pubDate || Date.now()).getTime();
-    const dateB = new Date(b.pubDate || Date.now()).getTime();
-
-    if (isNaN(dateA) || isNaN(dateB)) return 0; // Evita que el sort rompa la función
+    const dateA = new Date(a.pubDate).getTime();
+    const dateB = new Date(b.pubDate).getTime();
 
     const hourInMs = 1000 * 60 * 60;
     const boost = 4 * hourInMs;
