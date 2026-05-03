@@ -29,7 +29,14 @@ export const SOURCES: Record<Category, Source[]> = {
     },
     { name: "El Tiempo", url: "https://www.eltiempo.com/rss/colombia.xml" },
     { name: "BBC Mundo", url: "https://feeds.bbci.co.uk/mundo/rss.xml" },
-    { name: "CNN en Español", url: "https://cnnespanol.cnn.com/feed/" },
+    {
+      name: "CNN en Español",
+      url: "https://translate.google.com/website?sl=en&tl=es&hl=es&client=srp&u=http://rss.cnn.com/rss/cnn_topstories.rss",
+    },
+    {
+      name: "CNN en Español",
+      url: "https://translate.google.com/website?sl=en&tl=es&hl=es&client=srp&u=http://rss.cnn.com/rss/cnn_world.rss",
+    },
     {
       name: "El País (América)",
       url: "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/america/portada",
@@ -37,11 +44,15 @@ export const SOURCES: Record<Category, Source[]> = {
     { name: "DW Actualidad", url: "https://rss.dw.com/rdf/rss-sp-all" },
     { name: "France 24", url: "https://www.france24.com/es/rss" },
     { name: "La Republica", url: "https://www.larepublica.co/rss" },
+    {
+      name: "portafolio",
+      url: "http://www.portafolio.co/rss/internacional.xml  ",
+    },
   ],
   tecnologia: [
-    { name: "Xataka", url: "https://feeds.feedburner.com/xataka2" },
-    { name: "Applesfera", url: "https://feeds.feedburner.com/applesfera" },
-    { name: "Genbeta", url: "https://feeds.feedburner.com/genbeta" },
+    { name: "Xataka", url: "https://www.xataka.com/feedburner.xml" },
+    { name: "Applesfera", url: "https://www.applesfera.com/index.xml" },
+    { name: "Genbeta", url: "https://www.genbeta.com/index.xml" },
     {
       name: "Wired Tech",
       url: "https://www.wired.com/feed/category/gear/latest/rss",
@@ -53,7 +64,7 @@ export const SOURCES: Record<Category, Source[]> = {
     { name: "Marca", url: "https://e00-marca.uecdn.es/rss/portada.xml" },
     {
       name: "AS Colombia",
-      url: "https://colombia.as.com/rss/tags/ultimas_noticias/a/",
+      url: "https://as.com/rss/tags/ultimas_noticias.xml",
     },
     { name: "ESPN", url: "https://www.espn.com.co/espn/rss/news" },
     {
@@ -64,16 +75,25 @@ export const SOURCES: Record<Category, Source[]> = {
   politica: [
     {
       name: "El Espectador Política",
-      url: "https://www.elespectador.com/arc/outboundfeeds/politica/?outputType=xml",
+      url: "https://www.elespectador.com/arc/outboundfeeds/discover/category/politica/?outputType=xml",
     },
-    { name: "Semana Política", url: "https://www.semana.com/rss/politica" },
     { name: "La Silla Vacía", url: "https://www.lasillavacia.com/feed/" },
   ],
   finanzas: [
-    { name: "Portafolio", url: "https://www.portafolio.co/rss/negocios" },
+    { name: "Portafolio", url: "https://www.portafolio.co/rss/economia.xml" },
+    {
+      name: "Portafolio",
+      url: "https://www.portafolio.co/rss/economia/finanzas.xml",
+    },
+    {
+      name: "Portafolio",
+      url: "https://www.portafolio.co/rss/economia/negocios.xml",
+    },
     { name: "La República", url: "https://www.larepublica.co/rss" },
-    { name: "Forbes Colombia", url: "https://forbes.co/feed/" },
-    { name: "Bloomberg", url: "https://www.bloomberglinea.com/index.xml" },
+    {
+      name: "Semana Economía y Empresas",
+      url: "https://www.semana.com/arc/outboundfeeds/rss/category/economia/empresas/?outputType=xml",
+    },
   ],
   local: [
     { name: "Chicanoticias", url: "https://www.chicanoticias.com/feed/" },
