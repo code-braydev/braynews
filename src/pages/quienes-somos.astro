@@ -1,0 +1,165 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Badge from "../components/ui/Badge.astro";
+
+const title = "Quiénes Somos | BrayNews";
+---
+
+<Layout
+  title={title}
+  description="Conoce qué es BrayNews, cuál es nuestro propósito editorial y cómo seleccionamos la información que publicamos."
+>
+  <main class="max-w-3xl mx-auto px-6 py-16 md:py-24">
+    <article class="animate-fade-in">
+      <header
+        class="border-b border-slate-200 dark:border-slate-800/80 pb-10 mb-12"
+      >
+        <div class="mb-4">
+          <Badge variant="local">Editorial</Badge>
+        </div>
+        <h1
+          class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none"
+        >
+          Quiénes <span class="text-blue-600">Somos</span>
+        </h1>
+        <p
+          class="text-lg text-slate-500 dark:text-slate-400 mt-4 font-medium leading-relaxed"
+        >
+          Un portal de noticias hecho desde Montería para conectar a Córdoba y
+          Colombia con la actualidad del mundo.
+        </p>
+      </header>
+
+      <div
+        class="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed text-base md:text-lg"
+      >
+        <section
+          class="bg-white dark:bg-[#131B2E]/60 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800/80"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600"
+            >
+              <span class="text-sm">🎯</span>
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Nuestro Propósito
+            </h2>
+          </div>
+          <p>
+            BrayNews nació con una idea sencilla: <strong
+              >que estar informado no tome todo tu día</strong
+            >. Recopilamos las noticias más relevantes de fuentes confiables y
+            les añadimos resúmenes editoriales propios, para que en pocos
+            minutos sepas qué está pasando en Montería, Córdoba, Colombia y el
+            mundo.
+          </p>
+          <p class="mt-4">
+            Somos un proyecto independiente creado por <strong>BrayDev</strong>,
+            estudiante de Licenciatura en Informática y Medios Audiovisuales de
+            la Universidad de Córdoba, con el propósito de aportar un punto de
+            referencia informativo para la región.
+          </p>
+        </section>
+
+        <section
+          class="bg-white dark:bg-[#131B2E]/60 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800/80"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="w-8 h-8 rounded-lg bg-emerald-50 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600"
+            >
+              <span class="text-sm">📰</span>
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Cómo Seleccionamos la Información
+            </h2>
+          </div>
+          <p>
+            Nuestro equipo automatiza la recolección de titulares y noticias
+            desde medios de comunicación reconocidos, y luego genera resúmenes
+            propios para cada historia. Trabajamos bajo estos criterios:
+          </p>
+          <ul class="mt-4 space-y-3 pl-1">
+            <li class="flex gap-3">
+              <span class="text-blue-600 font-black">01.</span>
+              <span
+                ><strong>Relevancia:</strong> priorizamos temas que impactan la
+                vida de nuestra comunidad y del país.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-blue-600 font-black">02.</span>
+              <span
+                ><strong>Confianza:</strong> usamos fuentes establecidas y
+                verificables en el ámbito nacional e internacional.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-blue-600 font-black">03.</span>
+              <span
+                ><strong>Claridad:</strong> resumimos con un lenguaje sencillo,
+                directo y útil.</span
+              >
+            </li>
+            <li class="flex gap-3">
+              <span class="text-blue-600 font-black">04.</span>
+              <span
+                ><strong>Valor añadido:</strong> cada nota incluye análisis y
+                contexto propio, nunca copias literales del contenido original.</span
+              >
+            </li>
+          </ul>
+        </section>
+
+        <section
+          class="bg-white dark:bg-[#131B2E]/60 p-6 md:p-8 rounded-3xl border border-slate-200 dark:border-slate-800/80"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div
+              class="w-8 h-8 rounded-lg bg-amber-50 dark:bg-amber-900/20 flex items-center justify-center text-amber-600"
+            >
+              <span class="text-sm">⚖️</span>
+            </div>
+            <h2
+              class="text-xl md:text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+            >
+              Nuestra Responsabilidad
+            </h2>
+          </div>
+          <p>
+            Respetamos los derechos de autor: los textos publicados son
+            resúmenes y análisis originales elaborados por BrayNews. No
+            reproducimos artículos completos de los medios de origen. Si
+            encuentras un error o consideras que una nota afecta tus derechos,
+            escríbenos a través de nuestra página de
+            <a
+              href="/contacto"
+              class="text-blue-600 dark:text-blue-400 underline"
+              >contacto</a
+            >.
+          </p>
+        </section>
+      </div>
+
+      <footer
+        class="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800/80 flex flex-col items-center gap-6"
+      >
+        <div class="text-center">
+          <p
+            class="text-[10px] text-slate-400 uppercase tracking-[0.2em] font-black"
+          >
+            Montería, Córdoba - Colombia
+          </p>
+          <p class="text-xs text-slate-500 mt-1">
+            Proyecto desarrollado por BrayDev.
+          </p>
+        </div>
+      </footer>
+    </article>
+  </main>
+</Layout>

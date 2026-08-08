@@ -1,0 +1,171 @@
+---
+export const prerender = true;
+
+import Layout from "../../layouts/Layout.astro";
+import Badge from "../../components/ui/Badge.astro";
+import ImageContainer from "../../components/ui/ImageContainer.astro";
+import Button from "../../components/ui/Button.astro";
+import NewCard from "../../components/new/NewCard.astro";
+import {
+  getAllNews,
+  getNewsBySlug,
+  getRelatedNews,
+} from "../../lib/newsService";
+
+export async function getStaticPaths() {
+  return getAllNews().map((noticia) => ({
+    params: { slug: noticia.slug },
+    props: { noticia },
+  }));
+}
+
+const { noticia } = Astro.props;
+
+const fecha = new Date(noticia.pubDate).toLocaleDateString("es-CO", {
+  day: "2-digit",
+  month: "long",
+  year: "numeric",
+});
+
+const relacionadas = getRelatedNews(noticia);
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  headline: noticia.title,
+  description: noticia.resumen || noticia.contentSnippet,
+  datePublished: noticia.pubDate,
+  articleSection: noticia.category,
+  author: { "@type": "Organization", name: "BrayNews" },
+  publisher: {
+    "@type": "Organization",
+    name: "BrayNews",
+    url: "https://news.braydev.xyz",
+  },
+  mainEntityOfPage: `https://news.braydev.xyz/noticia/${noticia.slug}`,
+};
+---
+
+<Layout
+  title={`${noticia.title} | BrayNews`}
+  description={noticia.resumen || noticia.contentSnippet}
+  ogType="article"
+  jsonLd={jsonLd}
+>
+  <main class="max-w-4xl mx-auto px-4 py-10">
+    <article>
+      <header class="mb-10">
+        <nav
+          class="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-[0.2em] mb-4"
+        >
+          <a
+            href="/"
+            class="hover:text-slate-900 dark:hover:text-white transition"
+            >Inicio</a
+          >
+          <span class="mx-2 text-slate-300">/</span>
+          <a
+            href={`/categoria/${noticia.category}`}
+            class="hover:text-slate-900 dark:hover:text-white transition"
+            >{noticia.category}</a
+          >
+        </nav>
+
+        <div class="flex items-center gap-3 mb-4">
+          <Badge variant={noticia.category}>{noticia.category}</Badge>
+          <span
+            class="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400"
+          >
+            vía {noticia.sourceName}
+          </span>
+        </div>
+
+        <h1
+          class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-tight"
+        >
+          {noticia.title}
+        </h1>
+
+        <time
+          class="block mt-5 text-sm font-bold text-slate-400 uppercase tracking-widest italic"
+        >
+          {fecha}
+        </time>
+      </header>
+
+      <div class="mb-10">
+        <ImageContainer
+          src={noticia.thumbnail}
+          alt={noticia.title}
+          class="aspect-video"
+        />
+      </div>
+
+      <div
+        class="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed text-base md:text-lg"
+      >
+        {noticia.resumen ? (
+          <>
+            <p class="first-letter:text-6xl first-letter:font-black first-letter:text-blue-600 dark:first-letter:text-blue-400 first-letter:float-left first-letter:mr-3 first-letter:leading-[0.9]">
+              {noticia.resumen}
+            </p>
+            {noticia.porQueImporta && (
+              <section
+                class="bg-blue-50 dark:bg-blue-900/20 border-l-4 border-blue-600 p-5 md:p-6 rounded-r-2xl"
+              >
+                <h2
+                  class="text-xs font-black uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400 mb-2"
+                >
+                  Por qué importa
+                </h2>
+                <p class="text-slate-700 dark:text-slate-200 font-medium">
+                  {noticia.porQueImporta}
+                </p>
+              </section>
+            )}
+            {noticia.tags?.length > 0 && (
+              <div class="flex flex-wrap gap-2 pt-2">
+                {noticia.tags.map((tag) => (
+                  <span
+                    class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full"
+                  >
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+            <p class="text-xs text-slate-400 italic">
+              Resumen editorial elaborado por BrayNews a partir de la nota
+              original.
+            </p>
+          </>
+        ) : (
+          <p>{noticia.contentSnippet}</p>
+        )}
+      </div>
+    </article>
+
+    <Button href="/" variant="outline" class="mt-12">
+      ← Volver al inicio
+    </Button>
+
+    {relacionadas.length > 0 && (
+      <section class="mt-16">
+        <div class="flex items-center gap-4 mb-8">
+          <h2
+            class="text-2xl font-black text-slate-900 dark:text-white uppercase tracking-tighter"
+          >
+            Noticias relacionadas
+          </h2>
+          <div class="h-px bg-slate-200 dark:bg-slate-800 grow"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {relacionadas.map((n) => (
+            <NewCard noticia={n} />
+          ))}
+        </div>
+      </section>
+    )}
+  </main>
+</Layout>

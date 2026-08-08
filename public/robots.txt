@@ -5,4 +5,4 @@ Disallow: /api/private/
 Disallow: /dist/
 Disallow: /*.json$
 
-Sitemap: https://braydev.xyz/sitemap-index.xml
+Sitemap: https://news.braydev.xyz/sitemap-index.xml

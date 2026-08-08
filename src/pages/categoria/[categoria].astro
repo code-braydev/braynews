@@ -16,33 +16,68 @@ export async function getStaticPaths() {
 const { categoria } = Astro.params;
 const selectedCategory =
   categoria && categoria in SOURCES ? (categoria as Category) : undefined;
-const news = await getNews(selectedCategory);
+const news = getNews(selectedCategory);
 
-const categoryMap = {
-  tecnologia: { label: "Tecnología", desc: "Gadgets, IA y el futuro digital." },
+const categoryMap: Record<
+  string,
+  { label: string; desc: string; intro: string[] }
+> = {
+  general: {
+    label: "General",
+    desc: "La actualidad de Colombia y el mundo en un solo lugar.",
+    intro: [
+      "En BrayNews reunimos cada día las noticias más relevantes de Colombia y del mundo para que te pongas al día en minutos. Nuestro equipo selecciona los temas que de verdad importan y te ofrece un resumen claro y directo de cada historia.",
+      "Aquí encuentras el pulso de la actualidad nacional e internacional: política, sociedad, clima, cultura y todo lo que está moviendo la conversación en el planeta, con la mirada puesta siempre desde Montería y Córdoba.",
+    ],
+  },
+  tecnologia: {
+    label: "Tecnología",
+    desc: "Gadgets, IA y el futuro digital.",
+    intro: [
+      "La tecnología avanza demasiado rápido para quedarse atrás. En esta sección cubrimos inteligencia artificial, nuevos dispositivos, software y las tendencias digitales que están cambiando nuestra forma de vivir y trabajar.",
+      "Explicamos en lenguaje sencillo lo que significan los lanzamientos y avances más importantes, para que estés informado sin necesidad de ser un experto en el tema.",
+    ],
+  },
   deportes: {
     label: "Deportes",
     desc: "Resultados y toda la pasión del deporte mundial.",
+    intro: [
+      "Del fútbol colombiano a las grandes ligas del mundo, aquí sigues el resultado de cada jornada, los fichajes, las polémicas y las historias detrás de los atletas.",
+      "Te traemos lo esencial del deporte nacional e internacional con análisis que van más allá del marcador.",
+    ],
   },
   politica: {
     label: "Política",
     desc: "Análisis y actualidad del panorama político.",
+    intro: [
+      "La política define el rumbo del país y tu día a día. Cubrimos las decisiones del Gobierno, el Congreso y los temas que marcan la agenda nacional y regional.",
+      "Nuestro objetivo es ofrecerte información clara, equilibrada y con contexto, para que puedas formarte tu propia opinión con datos sólidos.",
+    ],
   },
   finanzas: {
     label: "Finanzas",
     desc: "Economía, mercados y el pulso del dinero.",
+    intro: [
+      "El precio del dólar, la inflación, las tasas de interés y los negocios que mueven la economía colombiana: aquí lo resumimos de forma sencilla y práctica.",
+      "Sigue la actualidad económica para tomar mejores decisiones con tu dinero y entender qué significa cada cifra para tu bolsillo.",
+    ],
   },
   local: {
     label: "Montería y Córdoba",
     desc: "Lo que pasa en nuestra tierra, minuto a minuto.",
+    intro: [
+      "Esta es nuestra casa. Reunimos las noticias de Montería y todo Córdoba: obras, eventos, seguridad, cultura y las historias de nuestra gente.",
+      "Creemos que lo local importa tanto como lo nacional, por eso le damos un espacio propio a todo lo que está pasando en nuestra región.",
+    ],
   },
 };
 
-const currentInfo = categoryMap[categoria as keyof typeof categoryMap] || {
+const currentInfo = categoryMap[categoria as string] || {
   label: categoria
     ? categoria.charAt(0).toUpperCase() + categoria.slice(1)
     : "General",
   desc: "Noticias actualizadas minuto a minuto.",
+  intro: [],
 };
 ---
 
@@ -74,6 +109,15 @@ const currentInfo = categoryMap[categoria as keyof typeof categoryMap] || {
       >
         {currentInfo.desc}
       </p>
+      {currentInfo.intro.length > 0 && (
+        <div
+          class="mt-6 max-w-3xl space-y-3 text-sm md:text-base text-slate-500 dark:text-slate-400 leading-relaxed"
+        >
+          {currentInfo.intro.map((paragraph) => (
+            <p>{paragraph}</p>
+          ))}
+        </div>
+      )}
     </header>
 
     <!-- GRID DE NOTICIAS: 1 col móvil, 2 tablet, 3 PC -->
@@ -100,16 +144,3 @@ const currentInfo = categoryMap[categoria as keyof typeof categoryMap] || {
     }
   </main>
 </Layout>
-
-<script is:inline define:vars={{ categoria }}>
-  // Lógica de Auto-Aprendizaje:
-  // Si el usuario entra a la página de categoría, actualizamos su interés automáticamente.
-  if (categoria) {
-    document.cookie = `pref_category=${categoria}; path=/; max-age=2592000; SameSite=Lax`;
-
-    // También actualizamos el contador de intereses en localStorage
-    let interests = JSON.parse(localStorage.getItem("user_interests") || "{}");
-    interests[categoria] = (interests[categoria] || 0) + 1;
-    localStorage.setItem("user_interests", JSON.stringify(interests));
-  }
-</script>

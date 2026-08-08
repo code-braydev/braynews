@@ -14,6 +14,10 @@ export interface NewsItem {
   category: Category;
   sourceName: string;
   thumbnail?: string;
+  slug: string;
+  resumen?: string;
+  porQueImporta?: string;
+  tags?: string[];
 }
 
 interface Source {
@@ -46,7 +50,7 @@ export const SOURCES: Record<Category, Source[]> = {
     { name: "La Republica", url: "https://www.larepublica.co/rss" },
     {
       name: "portafolio",
-      url: "http://www.portafolio.co/rss/internacional.xml  ",
+      url: "https://www.portafolio.co/rss/internacional.xml",
     },
   ],
   tecnologia: [
@@ -87,7 +91,7 @@ export const SOURCES: Record<Category, Source[]> = {
     },
     {
       name: "Portafolio",
-      url: "https://www.portafolio.co/rss/economia/negocios.xml",
+      url: "https://www.portafolio.co/rss/negocios.xml",
     },
     { name: "La República", url: "https://www.larepublica.co/rss" },
     {

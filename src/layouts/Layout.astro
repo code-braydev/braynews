@@ -11,6 +11,7 @@ interface Props {
   keywords?: string;
   ogType?: string;
   ogImage?: string;
+  jsonLd?: Record<string, unknown>;
 }
 
 const {
@@ -20,11 +21,12 @@ const {
   keywords = "BrayNews, braydev noticias, noticias Montería, noticias Córdoba, noticias Colombia, actualidad monteria, noticias de BrayDev, noticias en tiempo real, portal de noticias",
   ogType = "website",
   ogImage = "/og-image.png",
+  jsonLd,
 } = Astro.props;
 
 const canonicalURL = new URL(
   Astro.url.pathname,
-  Astro.site || "https://braydev.xyz",
+  Astro.site || "https://news.braydev.xyz",
 );
 ---
 
@@ -95,14 +97,14 @@ const canonicalURL = new URL(
         "name": "BrayNews",
         "alternateName": "Bray News",
         "description": "Portal de noticias inteligente con actualidad de Montería, Córdoba y el mundo.",
-        "url": "https://braydev.xyz",
+        "url": "https://news.braydev.xyz",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://braydev.xyz/logo.svg",
+          "url": "https://news.braydev.xyz/logo.svg",
           "width": 153,
           "height": 179
         },
-        "image": "https://braydev.xyz/og-image.png",
+        "image": "https://news.braydev.xyz/og-image.png",
         "sameAs": ["https://twitter.com/braydev", "https://github.com/braydev"],
         "founder": {
           "@type": "Person",
@@ -117,7 +119,7 @@ const canonicalURL = new URL(
         "contactPoint": {
           "@type": "ContactPoint",
           "contactType": "Customer Service",
-          "url": "https://braydev.xyz/contacto"
+          "url": "https://news.braydev.xyz/contacto"
         },
         "knowsAbout": [
           "Noticias",
@@ -130,6 +132,16 @@ const canonicalURL = new URL(
         ]
       }
     </script>
+
+    {
+      jsonLd && (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={JSON.stringify(jsonLd)}
+        />
+      )
+    }
   </head>
   <body
     class="bg-slate-50 dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased"

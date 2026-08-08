@@ -14,7 +14,7 @@ interface Props {
 const { id, noticia, variant = "default", dark = false } = Astro.props;
 
 const tituloLimpio = he.decode(noticia.title || "");
-const snippetLimpio = he.decode(noticia.contentSnippet || "");
+const snippetLimpio = he.decode(noticia.resumen || noticia.contentSnippet || "");
 const fecha = new Date(noticia.pubDate).toLocaleDateString("es-CO", {
   day: "2-digit",
   month: "short",
@@ -22,6 +22,7 @@ const fecha = new Date(noticia.pubDate).toLocaleDateString("es-CO", {
 });
 
 const isFeatured = variant === "featured";
+const href = `/noticia/${noticia.slug}`;
 ---
 
 <article
@@ -74,9 +75,7 @@ const isFeatured = variant === "featured";
           dark ? "text-white" : "text-slate-900 dark:text-white",
         ]}
       >
-        <a href={noticia.link} target="_blank" rel="noopener noreferrer"
-          >{tituloLimpio}</a
-        >
+        <a href={href}>{tituloLimpio}</a>
       </h3>
 
       <p
@@ -91,8 +90,8 @@ const isFeatured = variant === "featured";
       {
         isFeatured && (
           <div class="pt-4">
-            <Button href={noticia.link} class="w-full md:w-auto">
-              Leer noticia completa
+            <Button href={href} class="w-full md:w-auto">
+              Leer noticia
             </Button>
           </div>
         )
@@ -111,7 +110,7 @@ const isFeatured = variant === "featured";
       {
         !isFeatured && (
           <Button
-            href={noticia.link}
+            href={href}
             variant="ghost"
             class="px-0! min-h-0! py-0! text-blue-600 dark:text-blue-400 hover:bg-transparent"
           >
