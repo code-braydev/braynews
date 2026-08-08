@@ -1,5 +1,4 @@
 ---
-import Button from "../ui/Button.astro";
 const { pathname } = Astro.url;
 
 const navItems = [
@@ -19,39 +18,39 @@ const isCurrentPage = (href: string) => {
 ---
 
 <header
-  class="sticky top-0 z-50 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-all duration-300"
+  class="sticky top-0 z-50 w-full bg-slate-50/95 dark:bg-[#0B0F17]/95 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800/80 transition-all duration-300"
 >
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-14 md:h-16">
       <div class="flex items-center gap-2 min-w-0">
-        <a href="/" class="flex items-center gap-2 group">
+        <a href="/" class="flex items-center gap-2.5 group">
           <div
-            class="shrink-0 w-7 h-7 md:w-8 md:h-8 flex items-center justify-center overflow-hidden rounded-md bg-blue-50 dark:bg-slate-800"
+            class="shrink-0 w-8 h-8 md:w-9 md:h-9 flex items-center justify-center overflow-hidden rounded-xl bg-white dark:bg-[#131B2E] ring-1 ring-slate-200 dark:ring-slate-700/60 transition-transform duration-300 group-hover:scale-105"
           >
             <img
-              src="/logo.png"
-              alt="BrayNews Logo"
-              class="w-full h-full object-contain transition-transform duration-300 group-hover:scale-110"
+              src="/logo.svg"
+              alt="BrayDev Logo"
+              class="w-6 h-6 md:w-7 md:h-7 object-contain"
             />
           </div>
           <span
-            class="text-base md:text-lg font-black text-slate-900 dark:text-white tracking-tighter truncate uppercase"
+            class="text-base md:text-lg font-black text-slate-900 dark:text-white tracking-tighter uppercase"
           >
-            BRAY<span class="text-blue-600">NEWS</span>
+            BRAY<span class="text-blue-600 dark:text-blue-400">NEWS</span>
           </span>
         </a>
       </div>
 
-      <nav class="hidden lg:flex items-center space-x-1">
+      <nav class="hidden lg:flex items-center gap-1">
         {
           navItems.map((item) => (
             <a
               href={item.href}
               class:list={[
-                "px-3 py-1 rounded-full text-xs font-bold transition-all duration-200 whitespace-nowrap",
+                "px-3.5 py-1.5 rounded-full text-xs font-bold transition-all duration-200 whitespace-nowrap",
                 isCurrentPage(item.href)
-                  ? "bg-blue-600 text-white shadow-md shadow-blue-400/20"
-                  : "text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-slate-800",
+                  ? "bg-blue-600 text-white shadow-md shadow-blue-500/20"
+                  : "text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-white dark:hover:bg-[#131B2E]",
               ]}
             >
               {item.name}
@@ -60,48 +59,84 @@ const isCurrentPage = (href: string) => {
         }
       </nav>
 
-      <div class="flex items-center gap-2 md:gap-3 ml-2">
-        <Button
+      <div class="flex items-center gap-2 md:gap-2.5">
+        <button
           id="theme-toggle"
-          variant="toggle"
-          class="relative group shrink-0 flex items-center justify-start pl-0.5"
+          type="button"
+          aria-label="Cambiar tema"
+          class="relative flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white dark:bg-[#131B2E] text-slate-600 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 hover:ring-blue-300 dark:hover:ring-blue-500/50 transition-all duration-300 active:scale-95 cursor-pointer"
         >
-          <div
-            class="h-5 w-5 flex items-center justify-center rounded-full bg-white dark:bg-blue-400 transition-transform duration-300 shadow-sm z-10 translate-x-0 dark:translate-x-5"
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4.5 w-4.5 md:h-5 md:w-5 dark:hidden"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
           >
-            <span class="dark:hidden text-[9px] leading-none">☀️</span>
-            <span class="hidden dark:block text-[9px] leading-none">🌙</span>
-          </div>
-        </Button>
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="hidden h-4.5 w-4.5 md:h-5 md:w-5 dark:block"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z"
+            />
+          </svg>
+        </button>
 
-        <Button id="mobile-menu-btn" variant="icon" class="lg:hidden">
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-label="Abrir menú"
+          class="lg:hidden flex items-center justify-center w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white dark:bg-[#131B2E] text-slate-600 dark:text-slate-300 ring-1 ring-slate-200 dark:ring-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 transition-all duration-300 active:scale-95 cursor-pointer"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
+            stroke-width="2"
+            aria-hidden="true"
           >
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
-              stroke-width="2"
               d="M4 6h16M4 12h16m-7 6h7"></path>
           </svg>
-        </Button>
+        </button>
       </div>
     </div>
   </div>
 
   <div
     id="mobile-menu"
-    class="hidden lg:hidden border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 space-y-2 absolute w-full shadow-2xl animate-fade-in"
+    class="hidden lg:hidden border-t border-slate-200/80 dark:border-slate-800/80 bg-slate-50 dark:bg-[#0B0F17] p-4 space-y-2 shadow-2xl animate-fade-in"
   >
     {
       navItems.map((item) => (
         <a
           href={item.href}
-          class="block px-4 py-3 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 hover:bg-blue-50 dark:hover:bg-slate-800"
+          class:list={[
+            "block px-4 py-3 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-200 transition-colors",
+            isCurrentPage(item.href)
+              ? "bg-blue-600 text-white"
+              : "hover:bg-white dark:hover:bg-[#131B2E]",
+          ]}
         >
           {item.name}
         </a>

@@ -1,8 +1,8 @@
-﻿# 📰 BrayNews v1.5.1
+﻿# 📰 BrayNews v1.5.4
 
 **Portal de noticias inteligente y personalizado.**
 
-![Banner](https://braydev.xyz/og-image.jpg)
+![Banner](https://braydev.xyz/og-image.png)
 
 ### 🚀 Sobre el Proyecto
 
@@ -34,18 +34,7 @@
 Para optimizar el SEO y la monetización, el ecosistema de **BrayDev** se divide en:
 
 - **Noticias:** [braydev.xyz](https://braydev.xyz) (Dominio principal).
-- **Portafolio:** [portfolio.braydev.xyz](https://portfolio.braydev.xyz) (Subdominio profesional).
-
----
-
-### ⌨️ Comandos del Desarrollador
-
-| Comando             | Acción                                                             |
-| :------------------ | :----------------------------------------------------------------- |
-| `npm run dev`       | Inicia el servidor de desarrollo en `localhost:4321`.              |
-| `npm run build`     | Genera la versión de producción y el sitemap en `/dist`.           |
-| `npm run clean`     | Resetea el caché, elimina `node_modules` y reinstala dependencias. |
-| `npm run astro ...` | Ejecuta comandos de la CLI de Astro.                               |
+- **Portafolio:** [portfolio.braydev.xyz](https://portfolio.braydev.xyz) (Subdominio profesional). |
 
 ---
 

@@ -19,7 +19,7 @@ const {
   author = "BrayDev",
   keywords = "BrayNews, braydev noticias, noticias Montería, noticias Córdoba, noticias Colombia, actualidad monteria, noticias de BrayDev, noticias en tiempo real, portal de noticias",
   ogType = "website",
-  ogImage = "/og-image.jpg",
+  ogImage = "/og-image.png",
 } = Astro.props;
 
 const canonicalURL = new URL(
@@ -33,7 +33,7 @@ const canonicalURL = new URL(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <title>{title}</title>
 
     <meta name="description" content={description} />
@@ -58,7 +58,7 @@ const canonicalURL = new URL(
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(ogImage, Astro.site).href} />
     <meta property="og:image:alt" content={title} />
-    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:type" content="image/png" />
     <meta property="og:site_name" content="BrayNews" />
     <meta property="og:locale" content="es_CO" />
 
@@ -98,11 +98,11 @@ const canonicalURL = new URL(
         "url": "https://braydev.xyz",
         "logo": {
           "@type": "ImageObject",
-          "url": "https://braydev.xyz/logo.png",
-          "width": 500,
-          "height": 500
+          "url": "https://braydev.xyz/logo.svg",
+          "width": 153,
+          "height": 179
         },
-        "image": "https://braydev.xyz/og-image.jpg",
+        "image": "https://braydev.xyz/og-image.png",
         "sameAs": ["https://twitter.com/braydev", "https://github.com/braydev"],
         "founder": {
           "@type": "Person",
@@ -132,7 +132,7 @@ const canonicalURL = new URL(
     </script>
   </head>
   <body
-    class="bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased"
+    class="bg-slate-50 dark:bg-[#0B0F17] text-slate-900 dark:text-slate-100 transition-colors duration-300 min-h-screen flex flex-col antialiased"
   >
     <Header />
 

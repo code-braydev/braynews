@@ -3,7 +3,7 @@ interface Props {
   href?: string;
   id?: string;
   class?: string;
-  variant?: "primary" | "outline" | "ghost" | "icon" | "toggle";
+  variant?: "primary" | "outline" | "ghost" | "icon";
 }
 
 const { href, id, class: className, variant = "primary" } = Astro.props;
@@ -31,11 +31,6 @@ const variantStyles = {
     base: "p-2 rounded-lg",
     colors:
       "text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 shadow-none",
-  },
-  toggle: {
-    base: "h-6 w-11 rounded-full shadow-inner",
-    colors:
-      "bg-slate-200 dark:bg-slate-700 shadow-inner transition-colors duration-300",
   },
 };
 
