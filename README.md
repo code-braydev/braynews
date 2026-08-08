@@ -12,9 +12,9 @@
 
 ### ✨ Características Principales
 
-- **Algoritmo de Personalización SSR:** El sistema detecta intereses mediante cookies y reorganiza el feed de inicio en el servidor para evitar parpadeos (Layout Shift).
+- **Personalización en el Cliente:** El sistema detecta intereses (localStorage + cookie) y reorganiza el feed de inicio en el navegador, evitando parpadeos y Layout Shift.
 - **Diseño Adaptativo (Grid 3 Columnas):** Interfaz optimizada con una rejilla de 3 columnas para escritorio y una vista simplificada para dispositivos móviles.
-- **SEO de Alto Nivel:** Configuración avanzada de **JSON-LD (NewsMediaOrganization)**, metatags de Open Graph y optimización local para la región de Córdoba.
+- **SEO de Alto Nivel:** Configuración avanzada de **JSON-LD (Schema.org NewsArticle)**, metatags de Open Graph y optimización local para la región de Córdoba.
 - **Estética Neon Dark:** Interfaz diseñada bajo la identidad visual "Neon Dark" de BrayDev, con soporte para modo oscuro persistente y detección de preferencias del sistema.
 - **Orquestador Venus:** Integración de la librería propia `@braydev/venus` para la extracción y gestión eficiente de flujos de datos RSS.
 
@@ -22,8 +22,8 @@
 
 ### 🛠️ Stack Tecnológico
 
-- **Framework:** Astro v5.17.1 (Zero JS por defecto).
-- **Estilos:** Tailwind CSS v4.1.18 (Configuración Neon).
+- **Framework:** Astro v7.2.0 (Zero JS por defecto).
+- **Estilos:** Tailwind CSS v4.3.3 (Configuración Neon).
 - **Lógica:** TypeScript + @braydev/venus.
 - **SEO:** @astrojs/sitemap + Schema.org.
 
@@ -33,8 +33,8 @@
 
 Para optimizar el SEO y la monetización, el ecosistema de **BrayDev** se divide en:
 
-- **Noticias:** [braydev.xyz](https://braydev.xyz) (Dominio principal).
-- **Portafolio:** [portfolio.braydev.xyz](https://portfolio.braydev.xyz) (Subdominio profesional). |
+- **Noticias:** [news.braydev.xyz](https://news.braydev.xyz) (Portal de noticias).
+- **Portafolio:** [braydev.xyz](https://braydev.xyz) (Dominio principal, alojando temporalmente el portafolio).
 
 ---
 
