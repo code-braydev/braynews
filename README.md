@@ -2,7 +2,7 @@
 
 **Portal de noticias inteligente y personalizado.**
 
-![Banner](https://braydev.xyz/og-image.png)
+![Banner](https://news.braydev.xyz/og-image.png)
 
 ### 🚀 Sobre el Proyecto
 
