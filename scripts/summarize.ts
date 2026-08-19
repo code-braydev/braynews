@@ -10,7 +10,7 @@ const ROOT = join(__dirname, "..");
 const SNAPSHOT_PATH = join(ROOT, "src", "data", "news-snapshot.json");
 
 let GEMINI_MODEL = "gemini-3.5-flash";
-let GROQ_MODEL = "llama-3.3-70b-versatile";
+let GROQ_MODEL = "openai/gpt-oss-20b";
 const GROQ_ENDPOINT = "https://api.groq.com/openai/v1/chat/completions";
 const BATCH_SIZE = 5;
 const MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
