@@ -8,7 +8,7 @@ export default defineConfig({
   adapter: vercel({
     webAnalytics: { enabled: true },
   }),
-  site: 'https://news.braydev.xyz',
+  site: 'https://braydev.xyz',
   integrations: [sitemap()],
   build: {
     inlineStylesheets: 'always'
