@@ -23,7 +23,7 @@ const [noticiaPrincipal, ...otrasNoticias] = todasLasNoticias;
       >
         Últimas Noticias
       </h1>
-      <p id="home-sub" class="text-slate-500 dark:text-slate-400 font-medium">
+      <p id="home-sub" class="text-slate-600 dark:text-slate-400 font-medium">
         La actualidad de Montería y el mundo en un solo lugar.
       </p>
     </header>
@@ -31,7 +31,7 @@ const [noticiaPrincipal, ...otrasNoticias] = todasLasNoticias;
     {
       noticiaPrincipal && (
         <section class="mb-16">
-          <NewsCard noticia={noticiaPrincipal} variant="featured" />
+          <NewsCard noticia={noticiaPrincipal} variant="featured" headingLevel="h2" />
         </section>
       )
     }

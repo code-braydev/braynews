@@ -9,9 +9,16 @@ interface Props {
   noticia: any;
   variant?: "default" | "featured";
   dark?: boolean;
+  headingLevel?: "h2" | "h3";
 }
 
-const { id, noticia, variant = "default", dark = false } = Astro.props;
+const {
+  id,
+  noticia,
+  variant = "default",
+  dark = false,
+  headingLevel = "h3",
+} = Astro.props;
 
 const tituloLimpio = he.decode(noticia.title || "");
 const snippetLimpio = he.decode(noticia.resumen || noticia.contentSnippet || "");
@@ -23,6 +30,7 @@ const fecha = new Date(noticia.pubDate).toLocaleDateString("es-CO", {
 
 const isFeatured = variant === "featured";
 const href = `/noticia/${noticia.slug}`;
+const HeadingTag = headingLevel as string;
 ---
 
 <article
@@ -46,6 +54,7 @@ const href = `/noticia/${noticia.slug}`;
     <ImageContainer
       src={noticia.thumbnail}
       alt={tituloLimpio}
+      priority={isFeatured}
       class:list={[
         "transition-transform duration-700 group-hover:scale-110",
         isFeatured
@@ -59,14 +68,14 @@ const href = `/noticia/${noticia.slug}`;
     <div class="flex justify-between items-center gap-2">
       <Badge variant={noticia.category}>{noticia.category}</Badge>
       <span
-        class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] text-slate-400 truncate"
+        class="text-[9px] md:text-[10px] font-black uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400 truncate"
       >
         {noticia.sourceName}
       </span>
     </div>
 
     <div class="space-y-3 grow">
-      <h3
+      <HeadingTag
         class:list={[
           "font-black leading-tight group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-300",
           isFeatured
@@ -76,12 +85,12 @@ const href = `/noticia/${noticia.slug}`;
         ]}
       >
         <a href={href}>{tituloLimpio}</a>
-      </h3>
+      </HeadingTag>
 
       <p
         class:list={[
           "text-sm leading-relaxed line-clamp-3",
-          dark ? "text-slate-400" : "text-slate-500 dark:text-slate-400",
+          dark ? "text-slate-300" : "text-slate-600 dark:text-slate-400",
         ]}
       >
         {snippetLimpio}
@@ -102,7 +111,7 @@ const href = `/noticia/${noticia.slug}`;
       class="pt-4 border-t border-slate-100 dark:border-slate-800/50 flex justify-between items-center"
     >
       <time
-        class="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic"
+        class="text-[10px] font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest italic"
       >
         {fecha}
       </time>

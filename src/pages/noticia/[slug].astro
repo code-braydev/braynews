@@ -63,7 +63,7 @@ const jsonLd = {
             class="hover:text-slate-900 dark:hover:text-white transition"
             >Inicio</a
           >
-          <span class="mx-2 text-slate-300">/</span>
+          <span class="mx-2 text-slate-500 dark:text-slate-400">/</span>
           <a
             href={`/categoria/${noticia.category}`}
             class="hover:text-slate-900 dark:hover:text-white transition"
@@ -74,7 +74,7 @@ const jsonLd = {
         <div class="flex items-center gap-3 mb-4">
           <Badge variant={noticia.category}>{noticia.category}</Badge>
           <span
-            class="text-[10px] font-black uppercase tracking-[0.15em] text-slate-400"
+            class="text-[10px] font-black uppercase tracking-[0.15em] text-slate-600 dark:text-slate-400"
           >
             vía {noticia.sourceName}
           </span>
@@ -87,7 +87,7 @@ const jsonLd = {
         </h1>
 
         <time
-          class="block mt-5 text-sm font-bold text-slate-400 uppercase tracking-widest italic"
+          class="block mt-5 text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-widest italic"
         >
           {fecha}
         </time>
@@ -127,14 +127,14 @@ const jsonLd = {
               <div class="flex flex-wrap gap-2 pt-2">
                 {noticia.tags.map((tag) => (
                   <span
-                    class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full"
+                    class="text-[10px] font-black uppercase tracking-wider text-slate-700 dark:text-slate-400 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2.5 py-1 rounded-full"
                   >
                     #{tag}
                   </span>
                 ))}
               </div>
             )}
-            <p class="text-xs text-slate-400 italic">
+            <p class="text-xs text-slate-600 dark:text-slate-400 italic">
               Resumen editorial elaborado por BrayNews a partir de la nota
               original.
             </p>

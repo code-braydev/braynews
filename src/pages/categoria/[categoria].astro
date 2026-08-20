@@ -96,8 +96,8 @@ const currentInfo = categoryMap[categoria as string] || {
           class="hover:text-slate-900 dark:hover:text-white transition"
           >Inicio</a
         >
-        <span class="mx-2 text-slate-300">/</span>
-        <span class="text-slate-400">Categoría</span>
+        <span class="mx-2 text-slate-500 dark:text-slate-400">/</span>
+        <span class="text-slate-600 dark:text-slate-400">Categoría</span>
       </nav>
       <h1
         class="text-5xl md:text-7xl font-black text-slate-900 dark:text-white uppercase tracking-tighter leading-none"
@@ -125,7 +125,7 @@ const currentInfo = categoryMap[categoria as string] || {
       news.length > 0 ? (
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {news.map((noticia) => (
-            <NewCard noticia={noticia} />
+            <NewCard noticia={noticia} headingLevel="h2" />
           ))}
         </section>
       ) : (
